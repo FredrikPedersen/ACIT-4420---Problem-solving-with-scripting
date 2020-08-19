@@ -1,24 +1,25 @@
 # Task 1 & 2
 
-def cookies(name, number_of_cookies):
-    default_message = "Hello " + name + "!\n"
+def cookies(name: str, number_of_cookies: int) -> str:
+    message = "Hello " + name + "!\n"
 
     if 0 < number_of_cookies < 10:
-        print(default_message + "Are you sure that is enough cookies?")
+        message += "Are you sure that is enough cookies?\n"
     elif 9 < number_of_cookies < 20:
-        print(default_message + "I agree, cookies are delicious!")
+        message += "I agree, cookies are delicious!\n"
     elif 19 < number_of_cookies < 51:
-        print(default_message + "Be careful, that's a lot of cookies!")
+        message += "Be careful, that's a lot of cookies!\n"
     elif number_of_cookies > 50:
-        print(default_message + "No way, that is waaaaay too many! You get 50 cookies.")
+        message += "No way, that is waaaaay too many! You get 50 cookies.\n"
         number_of_cookies = 50
     else:
-        print(default_message + "Something must be wrong, I give you 10 cookies!")
+        message += "Something must be wrong, I give you 10 cookies!\n"
         number_of_cookies = 10
 
-    print("Here are your cookies: " + "cookie " * number_of_cookies)
+    message += "Here are your cookies: " + "cookie " * number_of_cookies
+    return message
 
 
 name_input = input("What is your name? \n")
 cookies_input = int(input("How many cookies do you want? \n"))
-cookies(name_input, cookies_input)
+print(cookies(name_input, cookies_input))
