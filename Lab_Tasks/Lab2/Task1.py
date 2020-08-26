@@ -4,6 +4,10 @@ days = {"Monday": monday, "Tuesday": tuesday, "Wednesday": wednesday, "Thursday"
 
 
 def menu():
+    """
+    Recursive function serving as an entry point for the user, allowing them to choose what program flow they
+    wish to follow. Terminates at the user's request or if invalid input is detected.
+    """
 
     user_choice = input("s - Add appointment\nl - List a schedule\nx - Exit\nWhat do you want to do? ")
 
@@ -19,6 +23,12 @@ def menu():
 
 
 def get_input(user_choice: str):
+    """
+    Gathers necessary input from the user, dependent on what program flow they have
+    indicated they wish to follow.
+
+    :param user_choice: The user's desired program flow
+    """
 
     chosen_day = input("What day? ")
 
@@ -32,6 +42,15 @@ def get_input(user_choice: str):
 
 
 def save_appointment(chosen_day: str, chosen_time: int, appointment: str):
+    """
+    Finds the schedule corresponding to the user's chosen day from the days dictionary, then adds
+    their appointment at the time indicated by the user.
+
+    :param chosen_day: User defined value for what day's schedule should be updated
+    :param chosen_time: User defined value for what time their appointment takes place
+    :param appointment: User defined value representing their appointment
+    """
+
     schedule = (days[chosen_day])
     schedule[chosen_time] = appointment
 
@@ -40,13 +59,18 @@ def save_appointment(chosen_day: str, chosen_time: int, appointment: str):
 
 
 def print_schedule(chosen_day: str):
+    """
+    Prints the entire schedule for the chosen day
+
+    :param chosen_day: User defined value for what day's schedule should be printed
+    """
 
     schedule = days[chosen_day]
     output = ""
 
     for x in range(len(schedule)):
         output += format_number_string(x)
-        output += format_appointment_value(schedule, x)
+        output += str(schedule[x]) if schedule[x] is not None else " "
 
         output += "\n"
 
@@ -54,6 +78,13 @@ def print_schedule(chosen_day: str):
 
 
 def format_number_string(number: int) -> str:
+    """
+    Adds leading and trailing zeroes to integers to return a HH:MM format string
+
+    :param number: Number to be formatted
+    :return: Argument number converted to a HH:MM format
+    """
+
     formatted = ""
 
     if number < 10:
@@ -62,13 +93,4 @@ def format_number_string(number: int) -> str:
         formatted += str(number)
 
     formatted += ":00 "
-    return formatted
-
-
-def format_appointment_value(schedule: list, index: int) -> str:
-    formatted = " "
-
-    if schedule[index] is not None:
-        formatted += str(schedule[index])
-
     return formatted
