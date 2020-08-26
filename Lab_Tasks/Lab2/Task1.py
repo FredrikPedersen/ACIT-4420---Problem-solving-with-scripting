@@ -53,7 +53,7 @@ def save_appointment(chosen_day: str, chosen_time: int, appointment: str):
 
     days[chosen_day][chosen_time] = appointment
 
-    print("Your schedule for that day now looks like this: ")
+    print("Your schedule for " + chosen_day + " now looks like this: ")
     print_schedule(chosen_day)
 
 
