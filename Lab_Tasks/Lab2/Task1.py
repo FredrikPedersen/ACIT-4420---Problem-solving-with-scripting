@@ -51,8 +51,7 @@ def save_appointment(chosen_day: str, chosen_time: int, appointment: str):
     :param appointment: User defined value representing their appointment
     """
 
-    schedule = (days[chosen_day])
-    schedule[chosen_time] = appointment
+    days[chosen_day][chosen_time] = appointment
 
     print("Your schedule for that day now looks like this: ")
     print_schedule(chosen_day)
