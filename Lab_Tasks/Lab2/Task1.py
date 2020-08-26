@@ -3,23 +3,23 @@ days = {"Monday": monday, "Tuesday": tuesday, "Wednesday": wednesday, "Thursday"
         "Saturday": saturday, "Sunday": sunday}
 
 
-def menu():
+def task1_menu():
     """
     Recursive function serving as an entry point for the user, allowing them to choose what program flow they
     wish to follow. Terminates at the user's request or if invalid input is detected.
     """
 
-    user_choice = input("s - Add appointment\nl - List a schedule\nx - Exit\nWhat do you want to do? ")
+    user_choice = input("s - Add appointment\nl - List a schedule\nx - Continue to Task 2\nWhat do you want to do? ")
 
     if user_choice == "s" or user_choice == "l":
         get_input(user_choice)
     elif user_choice == "x":
-        exit()
+        return
     else:
-        print("No valid choice was made, exiting program...")
-        exit()
+        print("No valid choice was made, continuing to Task 2...")
+        return
 
-    menu()
+    task1_menu()
 
 
 def get_input(user_choice: str):
