@@ -20,9 +20,10 @@ def print_alphabetically_to_pdf(max_lines: int, content: List[str]):
     content = sorted(content, reverse=True)
 
     for i in range(max_lines):
-        document.drawString(100, bottom_margin, content[i])  # distance_left_margin, distance_bottom, text
+        document.drawString(100, bottom_margin, content[i])  # left_margin, bottom_margin, text
         bottom_margin += 20
 
+    document.setTitle("Windows Processes")
     document.save()
 
 
