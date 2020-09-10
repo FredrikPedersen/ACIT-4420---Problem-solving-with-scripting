@@ -128,5 +128,27 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+
+# Binaries
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.ear
+*.sar
+*.csv
+
+# IntelliJ project files 
+*.iml
+*.iws
+*.ipr
+.idea/
+out/
+
 # Misc
 *.pdf
