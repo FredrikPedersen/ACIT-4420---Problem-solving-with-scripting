@@ -15,11 +15,14 @@ class ImageProcessor:
 
         return image.shape[:2]
 
-    def create_snow_image(self):
-        image_copy = self.__image.copy()
-        return
+    def create_snow_image(self) -> None:
+        snow_image = self.__image.copy()
 
-    def cut_image(self, pixels_cut_top: int, pixels_cut_sides: int):
+        snow_image[snow_image > 150] = 255  # Replaces all values in the array which are greater than 150 with 255
+
+        self.__save_new_image(snow_image, "oslomet_snow")
+
+    def cut_image(self, pixels_cut_top: int, pixels_cut_sides: int) -> None:
         index_right = 1200 - pixels_cut_sides
 
         cut_image = self.__image.copy()[pixels_cut_top:1200, pixels_cut_sides:index_right]
