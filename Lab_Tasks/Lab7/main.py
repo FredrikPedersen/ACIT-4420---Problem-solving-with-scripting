@@ -4,4 +4,6 @@ image_path = "oslomet.bmp"
 
 imageProcessor = ImageProcessor(image_path, "bmp")
 
-imageProcessor.cut_image(200, 200)
+imageProcessor.get_image_size()
+imageProcessor.create_snow_image()
+imageProcessor.create_yellow_image()
