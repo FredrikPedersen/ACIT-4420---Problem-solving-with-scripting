@@ -22,6 +22,24 @@ class ImageProcessor:
 
         self.__save_new_image(snow_image, "oslomet_snow")
 
+    def create_yellow_image(self) -> None:
+        yellow_image = self.__image.copy()
+
+        for row in range(len(yellow_image)):
+            for column in range(len(yellow_image[row])):
+
+                # Checking for red and green values > 130 and blue values < 110
+                if yellow_image[row, column][0] > 130 and yellow_image[row, column][1] > 130 and yellow_image[row, column][2] < 110:
+                    yellow_image[row, column][0] -= 50
+
+                    # Before increasing the green value, make sure it wont surpass the max value of 255.
+                    if yellow_image[row, column][1] > 205:
+                        yellow_image[row, column][1] = 255
+                    else:
+                        yellow_image[row, column][1] += 50
+
+        self.__save_new_image(yellow_image, "oslomet_yellow")
+
     def cut_image(self, pixels_cut_top: int, pixels_cut_sides: int) -> None:
         index_right = 1200 - pixels_cut_sides
 
