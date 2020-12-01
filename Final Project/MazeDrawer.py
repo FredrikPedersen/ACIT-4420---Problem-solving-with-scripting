@@ -5,7 +5,8 @@ from typing import Tuple, List, Dict, Union
 from pygame.surface import SurfaceType, Surface
 from Grid import generate_grid
 from Constants import *
-from Direction import *
+from Direction import Direction
+from Colour import Colour
 
 
 class MazeDrawer:
@@ -19,7 +20,11 @@ class MazeDrawer:
     def __init__(self, screen: Union[Surface, SurfaceType]):
         self.__screen = screen
 
-    def draw(self):
+    def draw(self) -> None:
+        """
+        Public facing convenience function for performing all drawing tasks of this class
+        """
+        time.sleep(5)
         self.__draw_grid()
         self.__draw_maze(self.__rootX, self.__rootY)
         self.__draw_solution()
@@ -33,10 +38,10 @@ class MazeDrawer:
             x: int = coordinates[0]
             y: int = coordinates[1]
 
-            pygame.draw.line(self.__screen, WHITE, [x, y], [x + CELL_DIMENSION, y])
-            pygame.draw.line(self.__screen, WHITE, [x + CELL_DIMENSION, y + CELL_DIMENSION], [x, y + CELL_DIMENSION])
-            pygame.draw.line(self.__screen, WHITE, [x + CELL_DIMENSION, y], [x + CELL_DIMENSION, y + CELL_DIMENSION])
-            pygame.draw.line(self.__screen, WHITE, [x, y + CELL_DIMENSION], [x, y])
+            pygame.draw.line(self.__screen, Colour.BLACK.value, [x, y], [x + CELL_DIMENSION, y])
+            pygame.draw.line(self.__screen, Colour.BLACK.value, [x + CELL_DIMENSION, y + CELL_DIMENSION], [x, y + CELL_DIMENSION])
+            pygame.draw.line(self.__screen, Colour.BLACK.value, [x + CELL_DIMENSION, y], [x + CELL_DIMENSION, y + CELL_DIMENSION])
+            pygame.draw.line(self.__screen, Colour.BLACK.value, [x, y + CELL_DIMENSION], [x, y])
             pygame.display.update()
 
     def __draw_maze_cell(self, x, y, direction=None) -> None:
@@ -55,38 +60,53 @@ class MazeDrawer:
         y += 1
 
         if direction is None:
-            pygame.draw.rect(self.__screen, BLUE, (x, y, rectangle_size, rectangle_size), 0)
+            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x, y, rectangle_size, rectangle_size), 0)
 
         if direction == Direction.LEFT:
-            pygame.draw.rect(self.__screen, BLUE, (x - CELL_DIMENSION, y, rectangle_size * 2, rectangle_size), 0)
+            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x - CELL_DIMENSION, y, rectangle_size * 2, rectangle_size), 0)
 
         if direction == Direction.RIGHT:
-            pygame.draw.rect(self.__screen, BLUE, (x, y, rectangle_size * 2, rectangle_size), 0)
+            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x, y, rectangle_size * 2, rectangle_size), 0)
 
         if direction == Direction.DOWN:
-            pygame.draw.rect(self.__screen, BLUE, (x, y, rectangle_size, rectangle_size * 2), 0)
+            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x, y, rectangle_size, rectangle_size * 2), 0)
 
         if direction == Direction.UP:
-            pygame.draw.rect(self.__screen, BLUE, (x, y - CELL_DIMENSION, rectangle_size, rectangle_size * 2), 0)
+            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x, y - CELL_DIMENSION, rectangle_size, rectangle_size * 2), 0)
 
         pygame.display.update()
-
 
     def __draw_backtracking_cell(self, x, y):
         rectangle_size: int = CELL_DIMENSION - 1
 
-        pygame.draw.rect(self.__screen, RED, (x + 1, y + 1, rectangle_size, rectangle_size), 0)
+        pygame.draw.rect(self.__screen, Colour.RED.value, (x + 1, y + 1, rectangle_size, rectangle_size), 0)
         pygame.display.update()
-
 
     def __draw_solution_cell(self, x, y):
         # Offset to place the circle in the center of the cell
         x += CELL_DIMENSION / 2
         y += CELL_DIMENSION / 2
 
-        pygame.draw.circle(self.__screen, YELLOW, (x, y), 3)
+        pygame.draw.circle(self.__screen, Colour.RED.value, (x, y), 3)
         pygame.display.update()
 
+    def __find_unvisited_neighbours(self, x: int, y: int, visited: List[Tuple[int, int]]) -> List[Direction]:
+        neighbouring_cells: List[Direction] = []
+
+        # Check if right, left, bottom and top cells are already visited and exists, respectively.
+        if (x + CELL_DIMENSION, y) not in visited and (x + CELL_DIMENSION, y) in self.__grid:
+            neighbouring_cells.append(Direction.RIGHT)
+
+        if (x - CELL_DIMENSION, y) not in visited and (x - CELL_DIMENSION, y) in self.__grid:
+            neighbouring_cells.append(Direction.LEFT)
+
+        if (x, y + CELL_DIMENSION) not in visited and (x, y + CELL_DIMENSION) in self.__grid:
+            neighbouring_cells.append(Direction.DOWN)
+
+        if (x, y - CELL_DIMENSION) not in visited and (x, y - CELL_DIMENSION) in self.__grid:
+            neighbouring_cells.append(Direction.UP)
+
+        return neighbouring_cells
 
     def __draw_maze(self, x, y):
         """
@@ -152,26 +172,6 @@ class MazeDrawer:
 
                 # Change colour back after the backtracking has been displayed
                 self.__draw_maze_cell(x, y)
-
-
-    def __find_unvisited_neighbours(self, x: int, y: int, visited: List[Tuple[int, int]]) -> List[Direction]:
-        neighbouring_cells: List[Direction] = []
-
-        # Check if right, left, bottom and top cells are already visited and exists, respectively.
-        if (x + CELL_DIMENSION, y) not in visited and (x + CELL_DIMENSION, y) in self.__grid:
-            neighbouring_cells.append(Direction.RIGHT)
-
-        if (x - CELL_DIMENSION, y) not in visited and (x - CELL_DIMENSION, y) in self.__grid:
-            neighbouring_cells.append(Direction.LEFT)
-
-        if (x, y + CELL_DIMENSION) not in visited and (x, y + CELL_DIMENSION) in self.__grid:
-            neighbouring_cells.append(Direction.DOWN)
-
-        if (x, y - CELL_DIMENSION) not in visited and (x, y - CELL_DIMENSION) in self.__grid:
-            neighbouring_cells.append(Direction.UP)
-
-        return neighbouring_cells
-
 
     def __draw_solution(self) -> None:
         x: int = self.__solutionStart
