@@ -165,9 +165,9 @@ def draw_maze(x, y):
             draw_maze_cell(x, y)
 
 
-def draw_solution(solution_start):
-    x = solution_start
-    y = solution_start
+def draw_solution(solution_start) -> None:
+    x: int = solution_start
+    y: int = solution_start
 
     # Solution list contains all the coordinates to route back to start
     draw_solution_cell(x, y)
@@ -185,8 +185,7 @@ draw_grid()
 draw_maze(rootX, rootY)
 draw_solution(solutionStart)
 
-running = True
-
+running: bool = True
 # Pygame Loop
 while running:
 
