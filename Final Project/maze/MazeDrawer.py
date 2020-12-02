@@ -1,17 +1,17 @@
 import random
 import time
 from typing import Dict, List, Set
-from maze.Grid import generate_grid
 from maze.MazeUtils import *
 from maze.Cell import Cell
+from maze.Grid import Grid
 
 
 class MazeDrawer:
     __creationSteps: Dict = {}
 
-    def __init__(self, screen: Union[Surface, SurfaceType]):
+    def __init__(self, screen: Union[Surface, SurfaceType], grid_instance: Grid):
         self.__screen = screen
-        self.__grid: Dict[Tuple[int, int], Cell] = generate_grid()
+        self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.grid
     # init()
 
     def draw(self) -> None:

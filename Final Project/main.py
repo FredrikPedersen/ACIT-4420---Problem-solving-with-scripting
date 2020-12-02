@@ -4,6 +4,7 @@ from pygame.surface import SurfaceType, Surface
 from maze.MazeDrawer import MazeDrawer
 from values.Constants import *
 from solution.Testing import Testing
+from maze.Grid import Grid
 
 # Initalise Pygame
 pygame.init()
@@ -11,7 +12,7 @@ pygame.mixer.init()
 screen: Union[Surface, SurfaceType] = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Maze Solver")
 
-mazeDrawer: MazeDrawer = MazeDrawer(screen)
+mazeDrawer: MazeDrawer = MazeDrawer(screen, Grid.get_instance())
 mazeDrawer.draw()
 
 #mazeSolver: MazeSolver = MazeSolver(screen, SolutionType.RECURSIVE, mazeDrawer.creation_steps)
