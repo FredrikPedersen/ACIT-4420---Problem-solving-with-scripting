@@ -1,17 +1,17 @@
 import random
 import time
 from typing import Dict, List, Set
-from MazeUtils import *
 from Grid import generate_grid
+from MazeUtils import *
+from Cell import Cell
 
 
 class MazeDrawer:
-
-    __grid: List[Tuple[int, int]] = generate_grid()
     __creationSteps: Dict = {}
 
     def __init__(self, screen: Union[Surface, SurfaceType]):
         self.__screen = screen
+        self.__grid: Dict[Tuple[int, int], Cell] = generate_grid()
     # init()
 
     def draw(self) -> None:
@@ -105,6 +105,9 @@ class MazeDrawer:
         Also keeps track of it's creation steps for create a recursive solution for the maze by keeping track of the
         current cell and what was the previous step in a key-value pair, with key being the previous cell, and value
         being the current cell.
+
+        In each case were a neighbour is to be traversed, the neighbouring cell and the current cell has their
+        walls (used for solution algorithms) updated accordingly.
         """
 
         x = ROOT_X
@@ -124,29 +127,45 @@ class MazeDrawer:
                 chosen_neighbour: Direction = (random.choice(neighbouring_cells))
 
                 if chosen_neighbour == Direction.RIGHT:
+                    self.__grid[(x, y)].toggle_wall(Direction.RIGHT)
+                    self.__grid[x + CELL_SIZE, y].toggle_wall(Direction.LEFT)
+
                     draw_maze_cell(x, y, self.__screen, Direction.RIGHT)
                     self.__creationSteps[(x + CELL_SIZE, y)] = x, y
+
                     x = x + CELL_SIZE
                     visited.add((x, y))
                     stack.append((x, y))
 
                 elif chosen_neighbour == Direction.LEFT:
+                    self.__grid[(x, y)].toggle_wall(Direction.LEFT)
+                    self.__grid[x - CELL_SIZE, y].toggle_wall(Direction.RIGHT)
+
                     draw_maze_cell(x, y, self.__screen, Direction.LEFT)
                     self.__creationSteps[(x - CELL_SIZE, y)] = x, y
+
                     x = x - CELL_SIZE
                     visited.add((x, y))
                     stack.append((x, y))
 
                 elif chosen_neighbour == Direction.DOWN:
+                    self.__grid[(x, y)].toggle_wall(Direction.DOWN)
+                    self.__grid[x, y + CELL_SIZE].toggle_wall(Direction.UP)
+
                     draw_maze_cell(x, y, self.__screen, Direction.DOWN)
                     self.__creationSteps[(x, y + CELL_SIZE)] = x, y
+
                     y = y + CELL_SIZE
                     visited.add((x, y))
                     stack.append((x, y))
 
                 elif chosen_neighbour == Direction.UP:
+                    self.__grid[(x, y)].toggle_wall(Direction.UP)
+                    self.__grid[x, y - CELL_SIZE].toggle_wall(Direction.DOWN)
+
                     draw_maze_cell(x, y, self.__screen, Direction.UP)
                     self.__creationSteps[(x, y - CELL_SIZE)] = x, y
+
                     y = y - CELL_SIZE
                     visited.add((x, y))
                     stack.append((x, y))
@@ -156,6 +175,7 @@ class MazeDrawer:
                 # If all neighbouring cells are visited, remove the current one from the stack
                 x, y = stack.pop()
                 self.__draw_backtracking_cell(x, y)
+
     # draw_maze()
 
     # ---------- Getters and Setters ---------- #

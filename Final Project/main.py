@@ -15,8 +15,8 @@ pygame.display.set_caption("Maze Solver")
 mazeDrawer: MazeDrawer = MazeDrawer(screen)
 mazeDrawer.draw()
 
-mazeSolver: MazeSolver = MazeSolver(screen, SolutionType.RECURSIVE, mazeDrawer.creation_steps)
-mazeSolver.solve_maze()
+#mazeSolver: MazeSolver = MazeSolver(screen, SolutionType.RECURSIVE, mazeDrawer.creation_steps)
+#mazeSolver.solve_maze()
 
 # Pygame Loop
 running: bool = True
