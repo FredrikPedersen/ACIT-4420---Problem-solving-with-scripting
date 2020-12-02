@@ -5,7 +5,7 @@ WINDOW_WIDTH: int = 500
 WINDOW_HEIGHT: int = 600
 
 # Grid Constants
-GRID_WIDTH: int = 10
-GRID_HEIGHT: int = 10
-CELL_DIMENSION: int = 20
+GRID_WIDTH: int = 5
+GRID_HEIGHT: int = 5
+CELL_SIZE: int = 20
 
