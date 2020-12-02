@@ -18,7 +18,7 @@ mazeDrawer.draw()
 #mazeSolver: MazeSolver = MazeSolver(screen, SolutionType.RECURSIVE, mazeDrawer.creation_steps)
 #mazeSolver.solve_maze()
 
-solutionTests: Testing = Testing(screen)
+solutionTests: Testing = Testing(screen, Grid.get_instance())
 solutionTests.solve_maze()
 
 

@@ -1,7 +1,7 @@
 from typing import Tuple
 
 # Animations
-ANIMATIONS_ENABLED: bool = True
+ANIMATIONS_ENABLED: bool = False
 
 # Window Constants
 WINDOW_WIDTH: int = 600
