@@ -66,5 +66,13 @@ class MazeSolver:
         while (x, y) != (ROOT_X, ROOT_Y):
             x, y = self.__solution[x, y]
             self.__draw_solution_cell(x, y)
-            time.sleep(.1)
+
+            if ANIMATIONS_ENABLED:
+                time.sleep(.1)
     # draw_recursive_functions
+
+    # ---------- A* Solution Functions ---------- #
+
+    def __draw_astar_solution(self) -> None:
+        g: int = 0  # Cost to move from starting cell to given cell
+        h: int = 0  # Estimation to move from given cell to ending cell

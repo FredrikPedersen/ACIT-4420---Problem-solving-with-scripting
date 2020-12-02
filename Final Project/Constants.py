@@ -1,7 +1,10 @@
 from typing import Tuple
 
+# Animations
+ANIMATIONS_ENABLED: bool = True
+
 # Window Constants
-WINDOW_WIDTH: int = 500
+WINDOW_WIDTH: int = 600
 WINDOW_HEIGHT: int = 600
 
 # Grid Constants

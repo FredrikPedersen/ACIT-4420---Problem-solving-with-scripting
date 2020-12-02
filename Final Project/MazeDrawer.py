@@ -57,7 +57,8 @@ class MazeDrawer:
         pygame.draw.rect(self.__screen, Colour.RED.value, (x + 1, y + 1, rectangle_size, rectangle_size), 0)
         pygame.display.update()
 
-        time.sleep(.05)
+        if ANIMATIONS_ENABLED:
+            time.sleep(.05)
 
         # Change colour back after the backtracking has been displayed
         draw_maze_cell(x, y, self.__screen)
@@ -118,7 +119,10 @@ class MazeDrawer:
         stack: List[Tuple[int, int]] = [(x, y)]
 
         while len(stack) > 0:
-            time.sleep(.05)
+
+            if ANIMATIONS_ENABLED:
+                time.sleep(.05)
+
             neighbouring_cells: List[Direction] = self.__find_unvisited_neighbours(x, y, visited)
 
             if len(neighbouring_cells) > 0:
