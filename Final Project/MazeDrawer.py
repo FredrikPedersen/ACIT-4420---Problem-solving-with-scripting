@@ -10,7 +10,7 @@ from Colour import Colour
 
 
 class MazeDrawer:
-    # Maze variables
+
     __rootX: int = 20
     __rootY: int = 20
     __solutionStart: int = GRID_WIDTH * GRID_HEIGHT
@@ -44,7 +44,7 @@ class MazeDrawer:
             pygame.draw.line(self.__screen, Colour.BLACK.value, [x, y + CELL_DIMENSION], [x, y])
             pygame.display.update()
 
-    def __draw_maze_cell(self, x, y, direction=None) -> None:
+    def __draw_maze_cell(self, x, y, direction: Direction = None, colour: Colour = None) -> None:
         """
         Fills out a cell on the grid with a coloured rectangle to indicate part of the maze at coordinates (x, y).
         If a direction is given, the cell in the given direction is also filled out in addition to the cell at (x, y).
@@ -59,20 +59,25 @@ class MazeDrawer:
         x += 1
         y += 1
 
+        if colour is None:
+            colour_value = Colour.WHITE.value
+        else:
+            colour_value = colour.value
+
         if direction is None:
-            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x, y, rectangle_size, rectangle_size), 0)
+            pygame.draw.rect(self.__screen, colour_value, (x, y, rectangle_size, rectangle_size), 0)
 
         if direction == Direction.LEFT:
-            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x - CELL_DIMENSION, y, rectangle_size * 2, rectangle_size), 0)
+            pygame.draw.rect(self.__screen, colour_value, (x - CELL_DIMENSION, y, rectangle_size * 2, rectangle_size), 0)
 
         if direction == Direction.RIGHT:
-            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x, y, rectangle_size * 2, rectangle_size), 0)
+            pygame.draw.rect(self.__screen, colour_value, (x, y, rectangle_size * 2, rectangle_size), 0)
 
         if direction == Direction.DOWN:
-            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x, y, rectangle_size, rectangle_size * 2), 0)
+            pygame.draw.rect(self.__screen, colour_value, (x, y, rectangle_size, rectangle_size * 2), 0)
 
         if direction == Direction.UP:
-            pygame.draw.rect(self.__screen, Colour.WHITE.value, (x, y - CELL_DIMENSION, rectangle_size, rectangle_size * 2), 0)
+            pygame.draw.rect(self.__screen, colour_value, (x, y - CELL_DIMENSION, rectangle_size, rectangle_size * 2), 0)
 
         pygame.display.update()
 
@@ -125,7 +130,6 @@ class MazeDrawer:
         # Mark the starting location as visited, add it to the stack and draw it.
         visited: List[Tuple[int, int]] = [(x, y)]
         stack: List[Tuple[int, int]] = [(x, y)]
-        self.__draw_backtracking_cell(x, y)
 
         while len(stack) > 0:
             time.sleep(.05)
@@ -165,6 +169,7 @@ class MazeDrawer:
                     stack.append((x, y))
 
             else:
+
                 # If all neighbouring cells are visited, remove the current one from the stack
                 x, y = stack.pop()
                 self.__draw_backtracking_cell(x, y)
@@ -173,9 +178,15 @@ class MazeDrawer:
                 # Change colour back after the backtracking has been displayed
                 self.__draw_maze_cell(x, y)
 
+        # Mark the entrance cell in a different colour. Do this when done drawing the maze due to how the backtracking cell overwrites colours in the cells it passes by.
+        self.__draw_maze_cell(x, y, None, Colour.GREEN)
+
     def __draw_solution(self) -> None:
         x: int = self.__solutionStart
         y: int = self.__solutionStart
+        self.__draw_maze_cell(x, y, None, Colour.RED)
+        print(x)
+        print(y)
 
         # Solution list contains all the coordinates to route back to start
         self.__draw_solution_cell(x, y)
