@@ -1,5 +1,5 @@
-from typing import List, Tuple
-from Direction import Direction
+from typing import List
+from values.Direction import Direction
 
 
 class Cell:

@@ -1,5 +1,5 @@
-from Constants import *
-from Cell import Cell
+from values.Constants import *
+from maze.Cell import Cell
 from typing import Tuple, Dict
 
 

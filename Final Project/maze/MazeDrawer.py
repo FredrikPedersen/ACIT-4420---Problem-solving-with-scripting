@@ -1,9 +1,9 @@
 import random
 import time
 from typing import Dict, List, Set
-from Grid import generate_grid
-from MazeUtils import *
-from Cell import Cell
+from maze.Grid import generate_grid
+from maze.MazeUtils import *
+from maze.Cell import Cell
 
 
 class MazeDrawer:
@@ -26,7 +26,7 @@ class MazeDrawer:
 
     def __draw_grid(self) -> None:
         """
-        Draws white lines around each cell in the grid.
+        Draws white lines around each cell in the maze.
         """
 
         for coordinates in self.__grid:
@@ -95,7 +95,7 @@ class MazeDrawer:
 
     def __draw_maze(self):
         """
-        Recursive randomized depth-first search to create a maze on a grid of cells.
+        Recursive randomized depth-first search to create a maze on a maze of cells.
         For each step of the algorithm:
             1. Mark the current cell as visited
             2. While the current cell has any unvisited neighbour cells:

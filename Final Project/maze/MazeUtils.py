@@ -3,14 +3,14 @@ from typing import Union
 import pygame
 from pygame.surface import SurfaceType, Surface
 
-from Colour import Colour
-from Constants import *
-from Direction import Direction
+from values.Colour import Colour
+from values.Constants import *
+from values.Direction import Direction
 
 
 def draw_maze_cell(x, y, screen: Union[Surface, SurfaceType], direction: Direction = None, colour: Colour = None) -> None:
     """
-    Fills out a cell on the grid with a coloured rectangle to indicate part of the maze at coordinates (x, y).
+    Fills out a cell on the maze with a coloured rectangle to indicate part of the maze at coordinates (x, y).
     If a direction is given, the cell in the given direction is also filled out in addition to the cell at (x, y).
 
     :param x: X-coordinate of current cell.

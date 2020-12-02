@@ -1,7 +1,7 @@
 import time
 from typing import Dict
-from SolutionType import SolutionType
-from MazeUtils import *
+from values.SolutionType import SolutionType
+from maze.MazeUtils import *
 
 
 class MazeSolver:
