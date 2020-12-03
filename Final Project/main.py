@@ -1,18 +1,21 @@
-from typing import Union, Dict
+import sys
+from typing import Dict
 
 import pygame
-from pygame.surface import SurfaceType, Surface
 
 from maze.MazeDrawer import MazeDrawer
 from solution.MazeSolver import MazeSolver
+from values.Colour import Colour
 from values.Constants import *
 from values.SolutionType import SolutionType
+from gui.GameLoop import GameLoop
 
 # Initalise Pygame
-pygame.init()
-pygame.mixer.init()
-screen: Union[Surface, SurfaceType] = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("Maze Solver")
+
+gameLoop: GameLoop = GameLoop.get_instance()
+screen = gameLoop.get_screen()
+base_font = gameLoop.get_font()
+clock = gameLoop.get_clock()
 
 mazeDrawer: MazeDrawer = MazeDrawer(screen)
 creation_steps: Dict = mazeDrawer.draw()
@@ -21,21 +24,8 @@ mazeSolver: MazeSolver = MazeSolver(screen, SolutionType.BUILD_SOLUTION, creatio
 mazeSolver.solve_maze()
 
 mazeSolver.change_solution_type(SolutionType.RECURSIVE)
-mazeSolver.change_solution_start(40, 60)
+mazeSolver.change_solution_start(ROOT_X + 20, ROOT_Y + 40)
 mazeSolver.solve_maze()
 
+gameLoop.start_loop()
 
-
-# solutionTests: Testing = Testing(screen, Grid.get_instance())
-# solutionTests.solve_maze()
-
-
-# Pygame Loop
-running: bool = True
-while running:
-
-    for event in pygame.event.get():
-
-        # check for closing the window
-        if event.type == pygame.QUIT:
-            running = False

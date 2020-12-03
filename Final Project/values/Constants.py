@@ -1,5 +1,5 @@
 # Animations
-ANIMATIONS_ENABLED: bool = False
+ANIMATIONS_ENABLED: bool = True
 
 # Window Constants
 WINDOW_WIDTH: int = 600
@@ -10,11 +10,11 @@ GRID_WIDTH: int = 5
 GRID_HEIGHT: int = 5
 
 # Maze Constants
-ROOT_X: int = 150
-ROOT_Y: int = 150
+ROOT_X: int = 200
+ROOT_Y: int = 200
 CELL_SIZE: int = 20
-MAZE_WIDTH: int = (GRID_WIDTH * CELL_SIZE) + ROOT_X - CELL_SIZE
-MAZE_HEIGHT: int = (GRID_HEIGHT * CELL_SIZE) + ROOT_Y - CELL_SIZE
+MAZE_WIDTH: int = ((GRID_WIDTH - 1) * CELL_SIZE) + ROOT_X
+MAZE_HEIGHT: int = ((GRID_HEIGHT - 1) * CELL_SIZE) + ROOT_Y
 
 
 
