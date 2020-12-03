@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Dict
 
 import pygame
 from pygame.surface import SurfaceType, Surface
@@ -15,9 +15,9 @@ screen: Union[Surface, SurfaceType] = pygame.display.set_mode((WINDOW_WIDTH, WIN
 pygame.display.set_caption("Maze Solver")
 
 mazeDrawer: MazeDrawer = MazeDrawer(screen)
-mazeDrawer.draw()
+creation_steps: Dict = mazeDrawer.draw()
 
-mazeSolver: MazeSolver = MazeSolver(screen, SolutionType.BUILD_SOLUTION, mazeDrawer.creation_steps)
+mazeSolver: MazeSolver = MazeSolver(screen, SolutionType.BUILD_SOLUTION, creation_steps)
 mazeSolver.solve_maze()
 
 mazeSolver.change_solution_type(SolutionType.RECURSIVE)
