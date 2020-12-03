@@ -23,14 +23,15 @@ class Grid:
 
     def __generate_grid(self) -> Dict[Tuple[int, int], Cell]:
         grid: Dict[Tuple[int, int], Cell] = {}
-        y: int = 0
+        y: int = ROOT_Y
 
         for i in range(0, GRID_HEIGHT):
-            x: int = CELL_SIZE
-            y += CELL_SIZE
+            x: int = ROOT_X
             for j in range(0, GRID_WIDTH):
                 grid[x, y] = Cell()
                 x += CELL_SIZE
+
+            y += CELL_SIZE
         return grid
 
     @property

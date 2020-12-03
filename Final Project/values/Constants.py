@@ -1,7 +1,5 @@
-from typing import Tuple
-
 # Animations
-ANIMATIONS_ENABLED: bool = True
+ANIMATIONS_ENABLED: bool = False
 
 # Window Constants
 WINDOW_WIDTH: int = 600
@@ -12,11 +10,11 @@ GRID_WIDTH: int = 5
 GRID_HEIGHT: int = 5
 
 # Maze Constants
-ROOT_X: int = 20
-ROOT_Y: int = 20
+ROOT_X: int = 150
+ROOT_Y: int = 150
 CELL_SIZE: int = 20
-MAZE_WIDTH = GRID_WIDTH * CELL_SIZE
-MAZE_HEIGHT = GRID_HEIGHT * CELL_SIZE
+MAZE_WIDTH: int = (GRID_WIDTH * CELL_SIZE) + ROOT_X - CELL_SIZE
+MAZE_HEIGHT: int = (GRID_HEIGHT * CELL_SIZE) + ROOT_Y - CELL_SIZE
 
 
 
