@@ -1,9 +1,9 @@
 import random
-import time
 from typing import Dict, List, Set
-from maze.MazeUtils import *
+
 from maze.Cell import Cell
 from maze.Grid import Grid
+from maze.MazeUtils import *
 
 
 class MazeDrawer:
@@ -59,8 +59,7 @@ class MazeDrawer:
         pygame.draw.rect(self.__screen, Colour.RED.value, (x + 1, y + 1, rectangle_size, rectangle_size), 0)
         pygame.display.update()
 
-        if ANIMATIONS_ENABLED:
-            time.sleep(.05)
+        sleep_if_animation()
 
         # Change colour back after the backtracking has been displayed
         draw_maze_cell(x, y, self.__screen)
@@ -122,8 +121,7 @@ class MazeDrawer:
 
         while len(stack) > 0:
 
-            if ANIMATIONS_ENABLED:
-                time.sleep(.05)
+
 
             neighbouring_cells: List[Direction] = self.__find_unvisited_neighbours(x, y, visited)
 

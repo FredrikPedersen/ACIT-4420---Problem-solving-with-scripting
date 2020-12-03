@@ -47,10 +47,11 @@ def draw_maze_cell(x, y, screen: Union[Surface, SurfaceType], direction: Directi
         pygame.draw.rect(screen, colour_value, (x, y - CELL_SIZE, rectangle_size, rectangle_size * 2), 0)
 
     pygame.display.update()
+    sleep_if_animation()
 # draw_maze_cell()
 
 
-def sleep_if_animation(timer: float = 0.5):
+def sleep_if_animation(timer: float = .05):
     """
     Convenience function for sleeping the program for a set time, if animations are enabled
     :param timer: Time in seconds the program should sleep
