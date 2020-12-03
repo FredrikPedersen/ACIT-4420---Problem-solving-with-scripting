@@ -20,6 +20,12 @@ mazeDrawer.draw()
 mazeSolver: MazeSolver = MazeSolver(screen, SolutionType.BUILD_SOLUTION, mazeDrawer.creation_steps)
 mazeSolver.solve_maze()
 
+mazeSolver.change_solution_type(SolutionType.RECURSIVE)
+mazeSolver.change_solution_start(40, 60)
+mazeSolver.solve_maze()
+
+
+
 # solutionTests: Testing = Testing(screen, Grid.get_instance())
 # solutionTests.solve_maze()
 
