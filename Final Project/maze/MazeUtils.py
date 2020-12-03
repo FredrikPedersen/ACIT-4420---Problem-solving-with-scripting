@@ -1,6 +1,7 @@
 from typing import Union
 
 import pygame
+import time
 from pygame.surface import SurfaceType, Surface
 
 from values.Colour import Colour
@@ -47,3 +48,12 @@ def draw_maze_cell(x, y, screen: Union[Surface, SurfaceType], direction: Directi
 
     pygame.display.update()
 # draw_maze_cell()
+
+
+def sleep_if_animation(timer: float = 0.5):
+    """
+    Convenience function for sleeping the program for a set time, if animations are enabled
+    :param timer: Time in seconds the program should sleep
+    """
+    if ANIMATIONS_ENABLED:
+        time.sleep(timer)
