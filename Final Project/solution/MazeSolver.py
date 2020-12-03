@@ -146,10 +146,10 @@ class MazeSolver:
         Keeps going in a direction until a wall is found in the given direction or the given direction is outside the
         maze's boundaries. Function terminates once the maze's entrance is found.
 
-        :param x: x-coordinate for current cell.
-        :param y: y-coordinate for current cell.
-        :return: true if there is another cell in a given direction, false if not. Also returns true when the exit is
-                found, or the current cell has already been visited.
+        :param x: x-coordinate for current cell. Default value used to indicate algorithm start conditions.
+        :param y: y-coordinate for current cell. Default value used to indicate algorithm start conditions.
+        :return: True if there is another cell in a given direction, false if not. Also returns True when x and y are
+                equal to the exit's coordinates, or the current cell has already been visited.
         """
         if x == -1 or y == -1:
             x = self.__solutionStartX
