@@ -1,22 +1,15 @@
-from typing import List
+from typing import Dict
 from values.Direction import Direction
 
 
 class Cell:
 
     def __init__(self):
-        self.__walls: List[bool, bool, bool, bool] = [True, True, True, True]
+        self.__walls: Dict[Direction: bool] = {Direction.LEFT: True, Direction.RIGHT: True, Direction.UP: True, Direction.DOWN: True}
         self.__visited_while_solving: bool = False
 
     def toggle_wall(self, direction: Direction):
-        if direction == Direction.LEFT:
-            self.__walls[0] = not self.__walls[0]
-        if direction == Direction.RIGHT:
-            self.__walls[1] = not self.__walls[1]
-        if direction == Direction.UP:
-            self.__walls[2] = not self.__walls[2]
-        if direction == Direction.DOWN:
-            self.__walls[3] = not self.__walls[3]
+        self.__walls[direction] = not self.__walls[direction]
 
     @property
     def walls(self):
