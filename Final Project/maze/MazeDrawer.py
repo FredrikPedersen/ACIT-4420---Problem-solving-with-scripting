@@ -9,7 +9,9 @@ from maze.Grid import Grid
 class MazeDrawer:
     __creationSteps: Dict = {}
 
-    def __init__(self, screen: Union[Surface, SurfaceType], grid_instance: Grid):
+    def __init__(self, screen: Union[Surface, SurfaceType]):
+        grid_instance: Grid = Grid.get_instance()
+
         self.__screen = screen
         self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.grid
     # init()
