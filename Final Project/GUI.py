@@ -8,6 +8,7 @@ from pygame.surface import SurfaceType, Surface
 from maze.MazeDrawer import MazeDrawer
 from solution.MazeSolver import MazeSolver
 from values.SolutionType import SolutionType
+from values.Colour import Colour
 
 
 class Gui:
@@ -98,6 +99,7 @@ class Gui:
     # ---------- Action Functions ---------- #
 
     def __draw_maze(self) -> None:
+        self.__clear_pygame_screen()
         maze_drawer: MazeDrawer = MazeDrawer(self.__screen)
         self.__creationSteps = maze_drawer.draw()
 
@@ -109,7 +111,7 @@ class Gui:
             maze_solver: MazeSolver = MazeSolver(self.__screen, self.__chosen_solution, self.__creationSteps)
             maze_solver.solve_maze()
 
-    # ---------- Callback Functions ---------- #
+    # ---------- Callback and Utility Functions ---------- #
 
     def __option_menu_callback(self, value):
         for solution_type in SolutionType:
@@ -127,3 +129,7 @@ class Gui:
 
     def __animtations_check_callback(self):
         Constants.ANIMATIONS_ENABLED = self.__animations_checked.get()
+
+    def __clear_pygame_screen(self):
+        self.__screen.fill(Colour.BLACK)
+        pygame.display.update()
