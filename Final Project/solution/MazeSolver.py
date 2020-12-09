@@ -147,6 +147,9 @@ class MazeSolver:
         Keeps going in a direction until a wall is found in the given direction or the given direction is outside the
         maze's boundaries. Function terminates once the maze's entrance is found.
 
+        Note that in combination with a very large or complex maze, this may produce a RecursionError due to maximum
+        recursion depth being exceeded.
+
         :param x: x-coordinate for current cell. Default value used to indicate algorithm start conditions.
         :param y: y-coordinate for current cell. Default value used to indicate algorithm start conditions.
         :return: True if there is another cell in a given direction, false if not. Also returns True when x and y are
