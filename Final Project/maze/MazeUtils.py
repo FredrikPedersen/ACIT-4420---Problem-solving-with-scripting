@@ -2,10 +2,10 @@ from typing import Union
 
 import pygame
 import time
+import values.Constants as Constants
 from pygame.surface import SurfaceType, Surface
 
 from values.Colour import Colour
-from values.Constants import *
 from values.Direction import Direction
 
 
@@ -22,7 +22,7 @@ def draw_maze_cell(x, y, screen: Union[Surface, SurfaceType], direction: Directi
     """
 
     # Offsets to make sure the maze's tile colour does not fill over the wall colour.
-    rectangle_size: int = CELL_SIZE - 1
+    rectangle_size: int = Constants.CELL_SIZE - 1
     x += 1
     y += 1
 
@@ -35,7 +35,7 @@ def draw_maze_cell(x, y, screen: Union[Surface, SurfaceType], direction: Directi
         pygame.draw.rect(screen, colour_value, (x, y, rectangle_size, rectangle_size), 0)
 
     if direction == Direction.LEFT:
-        pygame.draw.rect(screen, colour_value, (x - CELL_SIZE, y, rectangle_size * 2, rectangle_size), 0)
+        pygame.draw.rect(screen, colour_value, (x - Constants.CELL_SIZE, y, rectangle_size * 2, rectangle_size), 0)
 
     if direction == Direction.RIGHT:
         pygame.draw.rect(screen, colour_value, (x, y, rectangle_size * 2, rectangle_size), 0)
@@ -44,7 +44,7 @@ def draw_maze_cell(x, y, screen: Union[Surface, SurfaceType], direction: Directi
         pygame.draw.rect(screen, colour_value, (x, y, rectangle_size, rectangle_size * 2), 0)
 
     if direction == Direction.UP:
-        pygame.draw.rect(screen, colour_value, (x, y - CELL_SIZE, rectangle_size, rectangle_size * 2), 0)
+        pygame.draw.rect(screen, colour_value, (x, y - Constants.CELL_SIZE, rectangle_size, rectangle_size * 2), 0)
 
     pygame.display.update()
     sleep_if_animation()
@@ -56,5 +56,5 @@ def sleep_if_animation(timer: float = .05):
     Convenience function for sleeping the program for a set time, if animations are enabled
     :param timer: Time in seconds the program should sleep
     """
-    if ANIMATIONS_ENABLED:
+    if Constants.ANIMATIONS_ENABLED:
         time.sleep(timer)

@@ -1,4 +1,4 @@
-from values.Constants import *
+import values.Constants as Constants
 from maze.Cell import Cell
 from typing import Tuple, Dict
 
@@ -19,19 +19,21 @@ class Grid:
             raise Exception("This is a Singleton class, do not try to instantiate it directly. Use get_instance method!")
         else:
             Grid.__instance = self
-            self.__grid: Dict[Tuple[int, int], Cell] = self.__generate_grid()
+            self.generate_grid()
 
-    def __generate_grid(self) -> Dict[Tuple[int, int], Cell]:
+    def generate_grid(self) -> Dict[Tuple[int, int], Cell]:
         grid: Dict[Tuple[int, int], Cell] = {}
-        y: int = ROOT_Y
+        y: int = Constants.ROOT_Y
 
-        for i in range(0, GRID_HEIGHT):
-            x: int = ROOT_X
-            for j in range(0, GRID_WIDTH):
+        for i in range(0, Constants.GRID_HEIGHT):
+            x: int = Constants.ROOT_X
+            for j in range(0, Constants.GRID_WIDTH):
                 grid[x, y] = Cell()
-                x += CELL_SIZE
+                x += Constants.CELL_SIZE
 
-            y += CELL_SIZE
+            y += Constants.CELL_SIZE
+
+        self.__grid = grid
         return grid
 
     @property

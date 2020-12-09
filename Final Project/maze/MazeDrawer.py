@@ -1,4 +1,5 @@
 import random
+import values.Constants as Constants
 from typing import Dict, List, Set, Tuple
 
 from maze.Cell import Cell
@@ -12,7 +13,7 @@ class MazeDrawer:
         grid_instance: Grid = Grid.get_instance()
 
         self.__screen = screen
-        self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.grid
+        self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.generate_grid()
     # init()
 
     def draw(self) -> Dict:
@@ -34,10 +35,10 @@ class MazeDrawer:
             x: int = coordinates[0]
             y: int = coordinates[1]
 
-            pygame.draw.line(self.__screen, Colour.BLACK.value, [x, y], [x + CELL_SIZE, y])
-            pygame.draw.line(self.__screen, Colour.BLACK.value, [x + CELL_SIZE, y + CELL_SIZE], [x, y + CELL_SIZE])
-            pygame.draw.line(self.__screen, Colour.BLACK.value, [x + CELL_SIZE, y], [x + CELL_SIZE, y + CELL_SIZE])
-            pygame.draw.line(self.__screen, Colour.BLACK.value, [x, y + CELL_SIZE], [x, y])
+            pygame.draw.line(self.__screen, Colour.BLACK.value, [x, y], [x + Constants.CELL_SIZE, y])
+            pygame.draw.line(self.__screen, Colour.BLACK.value, [x + Constants.CELL_SIZE, y + Constants.CELL_SIZE], [x, y + Constants.CELL_SIZE])
+            pygame.draw.line(self.__screen, Colour.BLACK.value, [x + Constants.CELL_SIZE, y], [x + Constants.CELL_SIZE, y + Constants.CELL_SIZE])
+            pygame.draw.line(self.__screen, Colour.BLACK.value, [x, y + Constants.CELL_SIZE], [x, y])
             pygame.display.update()
     # draw_grid()
 
@@ -53,7 +54,7 @@ class MazeDrawer:
         """
 
         # Offsets to make sure the maze's tile colour does not fill over the wall colour.
-        rectangle_size: int = CELL_SIZE - 1
+        rectangle_size: int = Constants.CELL_SIZE - 1
 
         pygame.draw.rect(self.__screen, Colour.RED.value, (x + 1, y + 1, rectangle_size, rectangle_size), 0)
         pygame.display.update()
@@ -78,16 +79,16 @@ class MazeDrawer:
         neighbouring_cells: List[Direction] = []
 
         # Check if right, left, bottom and top cells are already visited and exists, respectively.
-        if (x + CELL_SIZE, y) not in visited and (x + CELL_SIZE, y) in self.__grid:
+        if (x + Constants.CELL_SIZE, y) not in visited and (x + Constants.CELL_SIZE, y) in self.__grid:
             neighbouring_cells.append(Direction.RIGHT)
 
-        if (x - CELL_SIZE, y) not in visited and (x - CELL_SIZE, y) in self.__grid:
+        if (x - Constants.CELL_SIZE, y) not in visited and (x - Constants.CELL_SIZE, y) in self.__grid:
             neighbouring_cells.append(Direction.LEFT)
 
-        if (x, y + CELL_SIZE) not in visited and (x, y + CELL_SIZE) in self.__grid:
+        if (x, y + Constants.CELL_SIZE) not in visited and (x, y + Constants.CELL_SIZE) in self.__grid:
             neighbouring_cells.append(Direction.DOWN)
 
-        if (x, y - CELL_SIZE) not in visited and (x, y - CELL_SIZE) in self.__grid:
+        if (x, y - Constants.CELL_SIZE) not in visited and (x, y - Constants.CELL_SIZE) in self.__grid:
             neighbouring_cells.append(Direction.UP)
 
         return neighbouring_cells
@@ -111,8 +112,8 @@ class MazeDrawer:
         walls (used for solution algorithms) updated accordingly.
         """
 
-        x = ROOT_X
-        y = ROOT_Y
+        x = Constants.ROOT_X
+        y = Constants.ROOT_Y
 
         # Mark the starting location as visited, add it to the stack and draw it.
         visited: Set[Tuple[int, int]] = {(x, y)}
@@ -130,45 +131,45 @@ class MazeDrawer:
 
                 if chosen_neighbour == Direction.RIGHT:
                     self.__grid[(x, y)].toggle_wall(Direction.RIGHT)
-                    self.__grid[x + CELL_SIZE, y].toggle_wall(Direction.LEFT)
+                    self.__grid[x + Constants.CELL_SIZE, y].toggle_wall(Direction.LEFT)
 
                     draw_maze_cell(x, y, self.__screen, Direction.RIGHT)
-                    creation_steps[(x + CELL_SIZE, y)] = x, y
+                    creation_steps[(x + Constants.CELL_SIZE, y)] = x, y
 
-                    x = x + CELL_SIZE
+                    x = x + Constants.CELL_SIZE
                     visited.add((x, y))
                     stack.append((x, y))
 
                 elif chosen_neighbour == Direction.LEFT:
                     self.__grid[(x, y)].toggle_wall(Direction.LEFT)
-                    self.__grid[x - CELL_SIZE, y].toggle_wall(Direction.RIGHT)
+                    self.__grid[x - Constants.CELL_SIZE, y].toggle_wall(Direction.RIGHT)
 
                     draw_maze_cell(x, y, self.__screen, Direction.LEFT)
-                    creation_steps[(x - CELL_SIZE, y)] = x, y
+                    creation_steps[(x - Constants.CELL_SIZE, y)] = x, y
 
-                    x = x - CELL_SIZE
+                    x = x - Constants.CELL_SIZE
                     visited.add((x, y))
                     stack.append((x, y))
 
                 elif chosen_neighbour == Direction.DOWN:
                     self.__grid[(x, y)].toggle_wall(Direction.DOWN)
-                    self.__grid[x, y + CELL_SIZE].toggle_wall(Direction.UP)
+                    self.__grid[x, y + Constants.CELL_SIZE].toggle_wall(Direction.UP)
 
                     draw_maze_cell(x, y, self.__screen, Direction.DOWN)
-                    creation_steps[(x, y + CELL_SIZE)] = x, y
+                    creation_steps[(x, y + Constants.CELL_SIZE)] = x, y
 
-                    y = y + CELL_SIZE
+                    y = y + Constants.CELL_SIZE
                     visited.add((x, y))
                     stack.append((x, y))
 
                 elif chosen_neighbour == Direction.UP:
                     self.__grid[(x, y)].toggle_wall(Direction.UP)
-                    self.__grid[x, y - CELL_SIZE].toggle_wall(Direction.DOWN)
+                    self.__grid[x, y - Constants.CELL_SIZE].toggle_wall(Direction.DOWN)
 
                     draw_maze_cell(x, y, self.__screen, Direction.UP)
-                    creation_steps[(x, y - CELL_SIZE)] = x, y
+                    creation_steps[(x, y - Constants.CELL_SIZE)] = x, y
 
-                    y = y - CELL_SIZE
+                    y = y - Constants.CELL_SIZE
                     visited.add((x, y))
                     stack.append((x, y))
 

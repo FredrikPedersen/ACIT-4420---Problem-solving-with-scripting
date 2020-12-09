@@ -1,5 +1,5 @@
+import values.Constants as Constants
 from typing import Dict, List, Tuple
-
 from maze.Grid import Grid
 from maze.MazeUtils import *
 from values.SolutionType import SolutionType
@@ -16,8 +16,8 @@ class MazeSolver:
         self.__maze_creation_steps: Dict = maze_creation_steps
         self.__solutionType = solution_type
         self.__grid = grid_instance.grid
-        self.__solutionStartX = MAZE_WIDTH
-        self.__solutionStartY = MAZE_HEIGHT
+        self.__solutionStartX = Constants.MAZE_WIDTH
+        self.__solutionStartY = Constants.MAZE_HEIGHT
 
     # init()
 
@@ -38,7 +38,7 @@ class MazeSolver:
         :param x: new x-coordinate for solution start
         :param y: new y-coordinate for solution start
         """
-        if x <= MAZE_WIDTH and y <= MAZE_HEIGHT and (x != ROOT_X and y != ROOT_Y):
+        if x <= Constants.MAZE_WIDTH and y <= Constants.MAZE_HEIGHT and (x != Constants.ROOT_X and y != Constants.ROOT_Y):
             self.__mark_solution_start(self.__solutionStartX, self.__solutionStartY, True)
             self.__solutionStartX = x
             self.__solutionStartY = y
@@ -61,6 +61,9 @@ class MazeSolver:
             self.__recursive_solution()
             self.__solutionSteps.reverse()
 
+        if self.__solutionType == SolutionType.A_STAR:
+            raise Exception("NOT IMPLEMENTED YET!")
+
         self.__draw_solution_cells()
 
     # solve_maze()
@@ -71,7 +74,7 @@ class MazeSolver:
         """
 
         self.__mark_solution_start(self.__solutionStartX, self.__solutionStartY)
-        draw_maze_cell(ROOT_X, ROOT_Y, self.__screen, None, Colour.GREEN)
+        draw_maze_cell(Constants.ROOT_X, Constants.ROOT_Y, self.__screen, None, Colour.GREEN)
 
     # mark_start_exit()
 
@@ -101,8 +104,8 @@ class MazeSolver:
         """
         for step in self.__solutionSteps:
             # Add an offset to place the circle in the center of the cell
-            x = step[0] + CELL_SIZE / 2
-            y = step[1] + CELL_SIZE / 2
+            x = step[0] + Constants.CELL_SIZE / 2
+            y = step[1] + Constants.CELL_SIZE / 2
 
             if not remove:
                 pygame.draw.circle(self.__screen, Colour.RED.value, (x, y), 3)
@@ -130,7 +133,7 @@ class MazeSolver:
         y: int = self.__solutionStartY
 
         # Loop until cell position == Start position
-        while (x, y) != (ROOT_X, ROOT_Y):
+        while (x, y) != (Constants.ROOT_X, Constants.ROOT_Y):
             x, y = self.__maze_creation_steps[x, y]
             self.__solutionSteps.append((x, y))
 
@@ -153,7 +156,7 @@ class MazeSolver:
             x = self.__solutionStartX
             y = self.__solutionStartY
 
-        if (x, y) == (ROOT_X, ROOT_Y):
+        if (x, y) == (Constants.ROOT_X, Constants.ROOT_Y):
             self.__solutionSteps.append((x, y))
             return True
         elif self.__grid[x, y].visited_while_solving:
@@ -169,17 +172,17 @@ class MazeSolver:
 
     # recursive_solution()
 
-    # Convenience functions for checking each direction recursive_solution(). Used for the sake of readability.
+    # Convenience functions for checking each direction in recursive_solution(). Written as separate functions for the sake of readability.
     def __check_left(self, x: int, y: int) -> bool:
-        return not self.__grid[x, y].walls[Direction.LEFT] and x - CELL_SIZE >= ROOT_X and self.__recursive_solution(x - CELL_SIZE, y)
+        return not self.__grid[x, y].walls[Direction.LEFT] and x - Constants.CELL_SIZE >= Constants.ROOT_X and self.__recursive_solution(x - Constants.CELL_SIZE, y)
 
     def __check_right(self, x: int, y: int) -> bool:
-        return not self.__grid[x, y].walls[Direction.RIGHT] and x + CELL_SIZE <= MAZE_WIDTH and self.__recursive_solution(x + CELL_SIZE, y)
+        return not self.__grid[x, y].walls[Direction.RIGHT] and x + Constants.CELL_SIZE <= Constants.MAZE_WIDTH and self.__recursive_solution(x + Constants.CELL_SIZE, y)
 
     def __check_up(self, x: int, y: int) -> bool:
-        return not self.__grid[x, y].walls[Direction.UP] and y - CELL_SIZE >= ROOT_Y and self.__recursive_solution(x, y - CELL_SIZE)
+        return not self.__grid[x, y].walls[Direction.UP] and y - Constants.CELL_SIZE >= Constants.ROOT_Y and self.__recursive_solution(x, y - Constants.CELL_SIZE)
 
     def __check_down(self, x: int, y: int) -> bool:
-        return not self.__grid[x, y].walls[Direction.DOWN] and y + CELL_SIZE <= MAZE_HEIGHT and self.__recursive_solution(x, y + CELL_SIZE)
+        return not self.__grid[x, y].walls[Direction.DOWN] and y + Constants.CELL_SIZE <= Constants.MAZE_HEIGHT and self.__recursive_solution(x, y + Constants.CELL_SIZE)
 
     # ---------- A* Solution Functions ---------- #
