@@ -1,5 +1,5 @@
 from tkinter import *
-from typing import Union
+from typing import Union, List
 
 import pygame
 import values.Constants as Constants
@@ -13,12 +13,16 @@ from values.Colour import Colour
 
 class Gui:
 
-    __control_panel_height: int = 300
-    __control_panel_width: int = 400
+    __control_panel_width: int = 300
+    __control_panel_height: int = 400
+    __max_maze_width: int = int(Constants.WINDOW_WIDTH / Constants.CELL_SIZE - 2)
+    __max_maze_height: int = int(Constants.WINDOW_HEIGHT / Constants.CELL_SIZE - 2)
 
     def __init__(self):
         self.__creationSteps = None
-        self.__chosen_solution = SolutionType.BUILD_SOLUTION
+        self.__chosen_solution: SolutionType = SolutionType.BUILD_SOLUTION
+        self.__solution_start: List[int, int] = [Constants.MAZE_WIDTH, Constants.MAZE_HEIGHT]
+        self.__solved_once = False
 
         self.__root_window: Tk = self.__initialize_root_window()
         self.__screen: Union[Surface, SurfaceType] = self.__initialize_pygame()
@@ -28,7 +32,7 @@ class Gui:
     def __initialize_root_window(self) -> Tk:
         root_window: Tk = Tk()
         root_window.title("Control Panel")
-        root_window.geometry(f"{self.__control_panel_height}x{self.__control_panel_width}")
+        root_window.geometry(f"{self.__control_panel_width}x{self.__control_panel_height}")
         self.__initialize_inputs(root_window)
 
         return root_window
@@ -39,22 +43,15 @@ class Gui:
 
     def __initialize_inputs(self, window: Tk) -> None:
 
-        # ---------- Settings ---------- #
-
-        maze_label = Label(window, text="Settings", font=("bold", 15))
-        maze_label.grid(row=3, column=1, pady=10)
-
-        max_width: int = int(Constants.WINDOW_WIDTH/Constants.CELL_SIZE - 2)
-        max_height: int = int(Constants.WINDOW_HEIGHT/Constants.CELL_SIZE - 2)
-
+        Label(window, text="Control Panel", font=("bold", 15)).grid(row=3, column=1, pady=10, columnspan=2)
         Label(window, text="Maze Width:", font=("bold", 10)).grid(row=4, column=1, pady=5)
 
-        self.__width_scale = Scale(window, from_=5, to=max_width, orient=HORIZONTAL, command=self.__width_scale_callback)
+        self.__width_scale = Scale(window, from_=5, to=self.__max_maze_width, orient=HORIZONTAL, command=self.__width_scale_callback)
         self.__width_scale.grid(row=4, column=2)
 
         Label(window, text="Maze Height:", font=("bold", 10)).grid(row=5, column=1, pady=10)
 
-        self.__height_scale = Scale(window, from_=5, to=max_height, orient=HORIZONTAL, command=self.__height_scale_callback)
+        self.__height_scale = Scale(window, from_=5, to=self.__max_maze_height, orient=HORIZONTAL, command=self.__height_scale_callback)
         self.__height_scale.grid(row=5, column=2)
 
         Label(window, text="Solution Algorithm:", font=("bold", 10)).grid(row=6, column=1, pady=10, padx=10)
@@ -68,12 +65,12 @@ class Gui:
 
         Label(window, text="Solution start X:", font=("bold", 10)).grid(row=7, column=1, pady=5)
 
-        self.__solution_start_x_scale = Scale(window, from_=5, to=self.__width_scale.get(), orient=HORIZONTAL)
+        self.__solution_start_x_scale = Scale(window, from_=5, to=self.__width_scale.get(), orient=HORIZONTAL, command=self.__solution_start_x_scale_callback)
         self.__solution_start_x_scale.grid(row=7, column=2)
 
         Label(window, text="Solution start Y:", font=("bold", 10)).grid(row=8, column=1, pady=10)
 
-        self.__solution_start_y_scale = Scale(window, from_=5, to=self.__height_scale.get(), orient=HORIZONTAL)
+        self.__solution_start_y_scale = Scale(window, from_=5, to=self.__height_scale.get(), orient=HORIZONTAL, command=self.__solution_start_y_scale_callback)
         self.__solution_start_y_scale.grid(row=8, column=2)
 
         Label(window, text="Draw Animations:", font=("bold", 10)).grid(row=9, column=1, pady=10)
@@ -82,11 +79,7 @@ class Gui:
         self.__animations_checked.set(True)
         self.__animations_check_button = Checkbutton(window, variable=self.__animations_checked, command=self.__animations_check_callback).grid(row=9, column=2)
 
-        # ---------- Actions ---------- #
-
-        Label(window, text="Actions", font=("bold", 15)).grid(row=10, column=1, pady=10)
-        Button(window, text="Draw Maze", command=self.__draw_maze).grid(row=11, column=1, pady=10)
-        Button(window, text="Solve Maze", command=self.__solve_maze).grid(row=11, column=2, pady=10)
+        Button(window, text="Draw and Solve Maze", font=("bold", 12), command=self.__draw_and_solve_maze).grid(row=11, column=1, pady=10, columnspan=2)
 
     # initialize_inputs()
 
@@ -102,18 +95,12 @@ class Gui:
 
     # ---------- Action Functions ---------- #
 
-    def __draw_maze(self) -> None:
+    def __draw_and_solve_maze(self) -> None:
         self.__clear_pygame_screen()
         maze_drawer: MazeDrawer = MazeDrawer(self.__screen)
         self.__creationSteps = maze_drawer.draw()
-
-    def __solve_maze(self) -> None:
-
-        if self.__creationSteps is None:
-            raise Exception("A maze must be drawn before trying to solve!")
-        else:
-            maze_solver: MazeSolver = MazeSolver(self.__screen, self.__chosen_solution, self.__creationSteps)
-            maze_solver.solve_maze()
+        maze_solver: MazeSolver = MazeSolver(self.__screen, self.__chosen_solution, self.__creationSteps, tuple(self.__solution_start))
+        maze_solver.solve_maze()
 
     # ---------- Callback and Utility Functions ---------- #
 
@@ -125,13 +112,19 @@ class Gui:
 
         raise Exception("A non-existing solution type has been selected. This should not be able to happen.")
 
-    def __width_scale_callback(self, value):
+    def __width_scale_callback(self, value: int):
         Constants.set_grid_width(int(value))
         self.__solution_start_x_scale.configure(to=value)
 
-    def __height_scale_callback(self, value):
+    def __height_scale_callback(self, value: int):
         Constants.set_grid_height(int(value))
         self.__solution_start_y_scale.configure(to=value)
+
+    def __solution_start_x_scale_callback(self, value: int):
+        self.__solution_start[0] = ((int(value) - 1) * Constants.CELL_SIZE) + Constants.ROOT_X
+
+    def __solution_start_y_scale_callback(self, value: int):
+        self.__solution_start[1] = ((int(value) - 1) * Constants.CELL_SIZE) + Constants.ROOT_Y
 
     def __animations_check_callback(self):
         Constants.ANIMATIONS_ENABLED = self.__animations_checked.get()
