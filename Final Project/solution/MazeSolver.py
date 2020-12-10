@@ -9,44 +9,17 @@ class MazeSolver:
     __solutionSteps: List[Tuple[int, int]]
     __solutionType: SolutionType
 
-    def __init__(self, screen: Union[Surface, SurfaceType], solution_type: SolutionType, maze_creation_steps: Dict):
+    def __init__(self, screen: Union[Surface, SurfaceType], solution_type: SolutionType, maze_creation_steps: Dict, solution_start: Tuple[int]):
         grid_instance: Grid = Grid.get_instance()
 
         self.__screen = screen
         self.__maze_creation_steps: Dict = maze_creation_steps
         self.__solutionType = solution_type
         self.__grid = grid_instance.grid
-        self.__solutionStartX = Constants.MAZE_WIDTH
-        self.__solutionStartY = Constants.MAZE_HEIGHT
+        self.__solutionStartX = solution_start[0]
+        self.__solutionStartY = solution_start[1]
 
     # init()
-
-    # ---------- Attribute Modifiers ---------- #
-    
-    def change_solution_type(self, solution_type: SolutionType):
-        self.__solutionType = solution_type
-        self.__draw_solution_cells(True)
-
-    # change_solution_type()
-
-    def change_solution_start(self, x: int, y: int) -> None:
-        """
-        Used for setting a new coordinate for the solution to be calculated from.
-        First checks if the parameter coordinates are withing the maze's bounds and not equal to the exit,
-        then removes the graphical solution start.
-
-        :param x: new x-coordinate for solution start
-        :param y: new y-coordinate for solution start
-        """
-        if x <= Constants.MAZE_WIDTH and y <= Constants.MAZE_HEIGHT and (x != Constants.ROOT_X and y != Constants.ROOT_Y):
-            self.__mark_solution_start(self.__solutionStartX, self.__solutionStartY, True)
-            self.__solutionStartX = x
-            self.__solutionStartY = y
-        else:
-            raise Exception("Invalid values for solutionStartX or solutionStartY were given! Please provide values "
-                            "confined to the maze's boundaries which are not equal to the entrance's coordinates")
-
-    # change_solution_start()
 
     # ---------- General Solution Functions ---------- #
 
@@ -73,26 +46,10 @@ class MazeSolver:
         Convenience function for drawing the solution's start and exit positions as red and green cells, respectively.
         """
 
-        self.__mark_solution_start(self.__solutionStartX, self.__solutionStartY)
+        draw_maze_cell(self.__solutionStartX, self.__solutionStartY, self.__screen, None, Colour.RED)
         draw_maze_cell(Constants.ROOT_X, Constants.ROOT_Y, self.__screen, None, Colour.GREEN)
 
     # mark_start_exit()
-
-    def __mark_solution_start(self, x: int, y: int, remove: bool = False) -> None:
-        """
-        Marks the starting point for the solution in the GUI
-
-        :param x: x-coordinate for the starting point
-        :param y: y-coordinate for the starting point
-        :param remove: Indicates whether the graphical starting point should be removed.
-        """
-
-        if not remove:
-            draw_maze_cell(x, y, self.__screen, None, Colour.RED)
-        else:
-            draw_maze_cell(x, y, self.__screen, None, Colour.WHITE)
-
-    # mark_exit()
 
     def __draw_solution_cells(self, remove: bool = False) -> None:
         """
