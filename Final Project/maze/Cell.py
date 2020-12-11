@@ -4,9 +4,7 @@ from values.Direction import Direction
 
 class Cell:
 
-    def __init__(self, x: int, y: int):
-        self.__x = x
-        self.__y = y
+    def __init__(self):
         self.__walls: Dict[Direction: bool] = {Direction.LEFT: True, Direction.RIGHT: True, Direction.UP: True, Direction.DOWN: True}
 
         # Values used specifically for Recursive Walk Algorithm
@@ -21,13 +19,8 @@ class Cell:
     def toggle_wall(self, direction: Direction):
         self.__walls[direction] = not self.__walls[direction]
 
-    @property
-    def x(self):
-        return self.__x
-
-    @property
-    def y(self):
-        return self.__y
+    def __update_movement_sum(self):
+        self.__movement_sum = self.__cost_from_start + self.__cost_to_end
 
     @property
     def walls(self):
@@ -60,10 +53,12 @@ class Cell:
     @cost_from_start.setter
     def cost_from_start(self, value):
         self.__cost_from_start = value
+        self.__update_movement_sum()
 
     @cost_to_end.setter
     def cost_to_end(self, value):
         self.__cost_to_end = value
+        self.__update_movement_sum()
 
     @parent.setter
     def parent(self, parent):

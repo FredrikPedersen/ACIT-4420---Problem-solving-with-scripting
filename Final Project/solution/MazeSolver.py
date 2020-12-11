@@ -183,8 +183,12 @@ class MazeSolver:
 
         return neighbours
 
-    def update_cell(self, adjacent_cell: Cell, current_cell: Cell):
+    def update_cell(self, adjacent_cell_coordinates: Tuple[int, int], current_cell_coordinates: Tuple[int, int]):
+        current_cell = self.__grid[current_cell_coordinates]
+        adjacent_cell = self.__grid[adjacent_cell_coordinates]
+
         adjacent_cell.cost_from_start = current_cell.cost_from_start + 10
-        #adjacent_cell.cost_to_end = self.__calculate_heuristic_cost()
+        adjacent_cell.cost_to_end = self.__calculate_heuristic_cost(adjacent_cell_coordinates)
+        adjacent_cell.parent = current_cell
 
 
