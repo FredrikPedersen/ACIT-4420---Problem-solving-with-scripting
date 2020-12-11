@@ -28,7 +28,7 @@ class Grid:
         for i in range(0, Constants.GRID_HEIGHT):
             x: int = Constants.ROOT_X
             for j in range(0, Constants.GRID_WIDTH):
-                grid[x, y] = Cell()
+                grid[x, y] = Cell(x, y)
                 x += Constants.CELL_SIZE
 
             y += Constants.CELL_SIZE

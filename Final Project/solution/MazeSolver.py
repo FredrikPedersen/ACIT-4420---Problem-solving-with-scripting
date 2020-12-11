@@ -10,6 +10,7 @@ from values.SolutionType import SolutionType
 class MazeSolver:
     __solutionSteps: List[Tuple[int, int]]
     __solutionType: SolutionType
+    __movement_cost: int = 10
 
     def __init__(self, screen: Union[Surface, SurfaceType], solution_type: SolutionType, maze_creation_steps: Dict, solution_start: Tuple[int]):
         grid_instance: Grid = Grid.get_instance()
@@ -152,43 +153,70 @@ class MazeSolver:
 
     # ---------- A* Solution Functions ---------- #
 
-    def __a_star_solution(self) -> None:
+    def __a_star_solution(self):
 
-        open_cells = list()   # List of cells to explore
-        heapq.heapify(open_cells)
-
+        open_cells: List[Tuple[int, Cell]] = list()   # List of cells to explore
         closed_cells = set()  # List of already explored cells
 
-        print(self.__calculate_heuristic_cost((self.__solutionStartX, self.__solutionStartY)))
-        print(self.__find_neighbouring_cells((self.__solutionStartX, self.__solutionStartY)))
+        starting_cell = self.__grid[self.__solutionStartX, self.__solutionStartY]
+        open_cells.append((starting_cell.movement_sum, starting_cell))
+
+        while len(open_cells):
+
+            movement_sum, cell = open_cells.pop()
+            closed_cells.add(cell)
+
+            if cell is self.__grid[Constants.ROOT_X, Constants.ROOT_Y]:
+                print(self.__create_path())
+
+            adjacent_cells: List[Cell] = self.__find_neighbouring_cells(cell)
+
+            for adjacent_cell in adjacent_cells:
+                if adjacent_cell not in closed_cells:
+                    if (adjacent_cell.movement_sum, adjacent_cell) in open_cells:
+                        if adjacent_cell.cost_from_start > cell.cost_from_start + self.__movement_cost:
+                            self.__update_cell(adjacent_cell, cell)
+                    else:
+                        self.__update_cell(adjacent_cell, cell)
+                        open_cells.append((adjacent_cell.movement_sum, adjacent_cell))
 
         return None
 
-    def __calculate_heuristic_cost(self, coordinates: Tuple[int, int]):
-        return 10 * (abs(coordinates[0] - Constants.ROOT_X) + abs(coordinates[1] - Constants.ROOT_Y))
+    def __create_path(self):
+        cell = self.__grid[Constants.ROOT_X, Constants.ROOT_Y]
+        path = [(cell.x, cell.y)]
 
-    def __find_neighbouring_cells(self, coordinates: Tuple[int, int]):
-        neighbours: Dict[Tuple[int, int], Cell] = dict()
-        x = coordinates[0]
-        y = coordinates[1]
+        while cell.parent is not self.__grid[self.__solutionStartX, self.__solutionStartY]:
+            cell = cell.parent
+            path.append((cell.x, cell.y))
+
+        path.append((self.__solutionStartX, self.__solutionStartY))
+        path.reverse()
+        return path
+
+    def __calculate_heuristic_cost(self, cell: Cell):
+        return self.__movement_cost * (abs(cell.x - Constants.ROOT_X) + abs(cell.y - Constants.ROOT_Y))
+
+    def __find_neighbouring_cells(self, cell: Cell) -> List[Cell]:
+        neighbours: List[Cell] = list()
+        x = cell.x
+        y = cell.y
 
         if not self.__direction_has_wall(x, y, Direction.LEFT) and x - Constants.CELL_SIZE >= Constants.ROOT_X:
-            neighbours[(x - Constants.CELL_SIZE, y)] = self.__grid[x - Constants.CELL_SIZE, y]
+            neighbours.append(self.__grid[x - Constants.CELL_SIZE, y])
         if not self.__direction_has_wall(x, y, Direction.RIGHT) and x + Constants.CELL_SIZE <= Constants.MAZE_WIDTH:
-            neighbours[(x + Constants.CELL_SIZE, y)] = self.__grid[x + Constants.CELL_SIZE, y]
+            neighbours.append(self.__grid[x + Constants.CELL_SIZE, y])
         if not self.__direction_has_wall(x, y, Direction.UP) and y - Constants.CELL_SIZE >= Constants.ROOT_Y:
-            neighbours[(x, y - Constants.CELL_SIZE)] = self.__grid[x, y - Constants.CELL_SIZE]
+            neighbours.append(self.__grid[x, y - Constants.CELL_SIZE])
         if not self.__direction_has_wall(x, y, Direction.DOWN) and y + Constants.CELL_SIZE <= Constants.MAZE_HEIGHT:
-            neighbours[(x, y + Constants.CELL_SIZE)] = self.__grid[x, y + Constants.CELL_SIZE]
+            neighbours.append(self.__grid[x, y + Constants.CELL_SIZE])
 
         return neighbours
 
-    def update_cell(self, adjacent_cell_coordinates: Tuple[int, int], current_cell_coordinates: Tuple[int, int]):
-        current_cell = self.__grid[current_cell_coordinates]
-        adjacent_cell = self.__grid[adjacent_cell_coordinates]
+    def __update_cell(self, adjacent_cell: Cell, current_cell: Cell):
 
-        adjacent_cell.cost_from_start = current_cell.cost_from_start + 10
-        adjacent_cell.cost_to_end = self.__calculate_heuristic_cost(adjacent_cell_coordinates)
+        adjacent_cell.cost_from_start = current_cell.cost_from_start + self.__movement_cost
+        adjacent_cell.cost_to_end = self.__calculate_heuristic_cost(adjacent_cell)
         adjacent_cell.parent = current_cell
 
 
