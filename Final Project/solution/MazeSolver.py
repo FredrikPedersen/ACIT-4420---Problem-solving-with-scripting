@@ -1,7 +1,9 @@
 import values.Constants as Constants
+import heapq
 from typing import Dict, List, Tuple
 from maze.Grid import Grid
 from maze.MazeUtils import *
+from maze.Cell import Cell
 from values.SolutionType import SolutionType
 
 
@@ -30,12 +32,12 @@ class MazeSolver:
         if self.__solutionType == SolutionType.BUILD_SOLUTION:
             self.__build_solution()
 
-        if self.__solutionType == SolutionType.RECURSIVE:
-            self.__recursive_solution()
+        if self.__solutionType == SolutionType.RECURSIVE_WALK:
+            self.__recursive_walk_solution()
             self.__solutionSteps.reverse()
 
         if self.__solutionType == SolutionType.A_STAR:
-            raise Exception("NOT IMPLEMENTED YET!")
+            self.__a_star_solution()
 
         self.__draw_solution_cells()
 
@@ -75,6 +77,9 @@ class MazeSolver:
 
     # draw_solution_cells()
 
+    def __direction_has_wall(self, x: int, y: int, direction: Direction) -> bool:
+        return self.__grid[x, y].walls[direction]
+
     # ---------- Build Solution Functions ---------- #
 
     def __build_solution(self) -> None:
@@ -98,7 +103,7 @@ class MazeSolver:
 
     # ---------- Recursive Solution Functions ---------- #
 
-    def __recursive_solution(self, x: int = -1, y: int = -1) -> bool:
+    def __recursive_walk_solution(self, x: int = -1, y: int = -1) -> bool:
         """
         Recursive path-finding solution to find the exit, prioritizing going left, right, up and then down.
         Keeps going in a direction until a wall is found in the given direction or the given direction is outside the
@@ -134,15 +139,52 @@ class MazeSolver:
 
     # Convenience functions for checking each direction in recursive_solution(). Written as separate functions for the sake of readability.
     def __check_left(self, x: int, y: int) -> bool:
-        return not self.__grid[x, y].walls[Direction.LEFT] and x - Constants.CELL_SIZE >= Constants.ROOT_X and self.__recursive_solution(x - Constants.CELL_SIZE, y)
+        return not self.__direction_has_wall(x, y, Direction.LEFT) and x - Constants.CELL_SIZE >= Constants.ROOT_X and self.__recursive_walk_solution(x - Constants.CELL_SIZE, y)
 
     def __check_right(self, x: int, y: int) -> bool:
-        return not self.__grid[x, y].walls[Direction.RIGHT] and x + Constants.CELL_SIZE <= Constants.MAZE_WIDTH and self.__recursive_solution(x + Constants.CELL_SIZE, y)
+        return not self.__direction_has_wall(x, y, Direction.RIGHT) and x + Constants.CELL_SIZE <= Constants.MAZE_WIDTH and self.__recursive_walk_solution(x + Constants.CELL_SIZE, y)
 
     def __check_up(self, x: int, y: int) -> bool:
-        return not self.__grid[x, y].walls[Direction.UP] and y - Constants.CELL_SIZE >= Constants.ROOT_Y and self.__recursive_solution(x, y - Constants.CELL_SIZE)
+        return not self.__direction_has_wall(x, y, Direction.UP) and y - Constants.CELL_SIZE >= Constants.ROOT_Y and self.__recursive_walk_solution(x, y - Constants.CELL_SIZE)
 
     def __check_down(self, x: int, y: int) -> bool:
-        return not self.__grid[x, y].walls[Direction.DOWN] and y + Constants.CELL_SIZE <= Constants.MAZE_HEIGHT and self.__recursive_solution(x, y + Constants.CELL_SIZE)
+        return not self.__direction_has_wall(x, y, Direction.DOWN) and y + Constants.CELL_SIZE <= Constants.MAZE_HEIGHT and self.__recursive_walk_solution(x, y + Constants.CELL_SIZE)
 
     # ---------- A* Solution Functions ---------- #
+
+    def __a_star_solution(self) -> None:
+
+        open_cells = list()   # List of cells to explore
+        heapq.heapify(open_cells)
+
+        closed_cells = set()  # List of already explored cells
+
+        print(self.__calculate_heuristic_cost((self.__solutionStartX, self.__solutionStartY)))
+        print(self.__find_neighbouring_cells((self.__solutionStartX, self.__solutionStartY)))
+
+        return None
+
+    def __calculate_heuristic_cost(self, coordinates: Tuple[int, int]):
+        return 10 * (abs(coordinates[0] - Constants.ROOT_X) + abs(coordinates[1] - Constants.ROOT_Y))
+
+    def __find_neighbouring_cells(self, coordinates: Tuple[int, int]):
+        neighbours: Dict[Tuple[int, int], Cell] = dict()
+        x = coordinates[0]
+        y = coordinates[1]
+
+        if not self.__direction_has_wall(x, y, Direction.LEFT) and x - Constants.CELL_SIZE >= Constants.ROOT_X:
+            neighbours[(x - Constants.CELL_SIZE, y)] = self.__grid[x - Constants.CELL_SIZE, y]
+        if not self.__direction_has_wall(x, y, Direction.RIGHT) and x + Constants.CELL_SIZE <= Constants.MAZE_WIDTH:
+            neighbours[(x + Constants.CELL_SIZE, y)] = self.__grid[x + Constants.CELL_SIZE, y]
+        if not self.__direction_has_wall(x, y, Direction.UP) and y - Constants.CELL_SIZE >= Constants.ROOT_Y:
+            neighbours[(x, y - Constants.CELL_SIZE)] = self.__grid[x, y - Constants.CELL_SIZE]
+        if not self.__direction_has_wall(x, y, Direction.DOWN) and y + Constants.CELL_SIZE <= Constants.MAZE_HEIGHT:
+            neighbours[(x, y + Constants.CELL_SIZE)] = self.__grid[x, y + Constants.CELL_SIZE]
+
+        return neighbours
+
+    def update_cell(self, adjacent_cell: Cell, current_cell: Cell):
+        adjacent_cell.cost_from_start = current_cell.cost_from_start + 10
+        #adjacent_cell.cost_to_end = self.__calculate_heuristic_cost()
+
+

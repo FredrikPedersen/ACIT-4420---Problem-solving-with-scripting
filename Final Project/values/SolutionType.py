@@ -4,7 +4,7 @@ import enum
 class SolutionType(enum.Enum):
 
     BUILD_SOLUTION = "Build Solution"
-    RECURSIVE = "Recursive"
+    RECURSIVE_WALK = "Recursive Walk"
     A_STAR = "A*"
 
     @staticmethod
