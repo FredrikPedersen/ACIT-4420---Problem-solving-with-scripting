@@ -5,6 +5,11 @@ from typing import Tuple, Dict
 
 class Grid:
 
+    """
+    Singleton class representing the grid a maze is drawn upon.
+    Is essentially used to hold the Grid-list and make sure not two grids exists at the same time in the program.
+    """
+
     __instance = None
 
     @staticmethod
@@ -23,6 +28,13 @@ class Grid:
     # __init__()
 
     def generate_grid(self) -> Dict[Tuple[int, int], Cell]:
+        """
+        Generates a N x M Dictionary with Cell objects as values, where N and M are defined constanst.py (and are
+        intended to be set by the user at runtime). Each cell is given an area equal to CELL_SIZExCELL_SIZE in the grid.
+
+        :return: Dictionary with a Cell object's coordinates as key, and the Cell object itself as value.
+        """
+
         grid: Dict[Tuple[int, int], Cell] = {}
         y: int = Constants.ROOT_Y
 

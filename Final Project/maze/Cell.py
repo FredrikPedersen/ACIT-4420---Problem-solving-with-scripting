@@ -4,6 +4,10 @@ from values.Direction import Direction
 
 class Cell:
 
+    """
+    Dumb class representing each cell in the maze-grid by holding values needed when drawing and solving mazes.
+    """
+
     def __init__(self, x: int, y: int):
         self.__x = x
         self.__y = y
