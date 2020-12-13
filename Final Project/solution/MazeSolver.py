@@ -2,7 +2,7 @@ from typing import Dict, List, Tuple
 
 from maze.Cell import Cell
 from maze.Grid import Grid
-from maze.MazeUtils import *
+from utilities.DrawUtills import *
 from solution.algorithms.AStar import AStar
 from solution.algorithms.RecursiveWalk import RecursiveWalk
 from values.SolutionType import SolutionType
