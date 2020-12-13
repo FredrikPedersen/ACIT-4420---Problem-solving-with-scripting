@@ -99,7 +99,7 @@ class Gui:
         maze_drawer: MazeDrawer = MazeDrawer(self.__screen)
         maze_drawer.draw()
         maze_solver: MazeSolver = MazeSolver(self.__screen, self.__chosen_solution, tuple(self.__solution_start))
-        maze_solver.solve_maze()
+        maze_solver.draw_maze_solution()
     # draw_and_solve_maze()
 
     # ---------- Callback and Utility Functions ---------- #

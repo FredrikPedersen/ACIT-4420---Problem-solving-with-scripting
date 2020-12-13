@@ -9,6 +9,10 @@ from values.Direction import Direction
 
 class SolutionABC(ABC):
 
+    """
+    Abstract Base Class for all maze-solution algorithms.
+    """
+
     def __init__(self, solution_start: Tuple[int, int]):
         grid_instance: Grid = Grid.get_instance()
 

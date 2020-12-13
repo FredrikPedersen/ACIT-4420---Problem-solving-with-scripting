@@ -10,6 +10,10 @@ from values.SolutionType import SolutionType
 
 class MazeSolver:
 
+    """
+    Class used for drawing paths calculated by solution algorithms to the maze.
+    """
+
     __solutionSteps: List[Tuple[int, int]]
     __solutionType: SolutionType
 
@@ -23,9 +27,7 @@ class MazeSolver:
         self.__solutionStartY: int = solution_start[1]
     # __init__()
 
-    # ---------- General Solution Functions ---------- #
-
-    def solve_maze(self) -> None:
+    def draw_maze_solution(self) -> None:
         self.__solutionSteps = []
         self.__mark_start_exit()
         solution_start_coordinates: Tuple[int, int] = (self.__solutionStartX, self.__solutionStartY)
@@ -48,13 +50,10 @@ class MazeSolver:
         draw_maze_cell(Constants.ROOT_X, Constants.ROOT_Y, self.__screen, None, Colour.GREEN)
     # mark_start_exit()
 
-    def __draw_solution_cells(self, remove: bool = False) -> None:
+    def __draw_solution_cells(self) -> None:
         """
         Draws a red circle in the center of the cell at position (x, y).
         Used to draw individual steps in the solution path.
-
-        :param remove: Indicate whether the function should be used to remove existing solution cells already drawn
-                        on the canvas.
         """
 
         for step in self.__solutionSteps:
@@ -62,11 +61,7 @@ class MazeSolver:
             x = step[0] + Constants.CELL_SIZE / 2
             y = step[1] + Constants.CELL_SIZE / 2
 
-            if not remove:
-                pygame.draw.circle(self.__screen, Colour.RED.value, (x, y), 3)
-            else:
-                pygame.draw.circle(self.__screen, Colour.WHITE.value, (x, y), 3)
-
+            pygame.draw.circle(self.__screen, Colour.RED.value, (x, y), 3)
             pygame.display.update()
 
             sleep_if_animation(.1)
