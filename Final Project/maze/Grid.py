@@ -13,13 +13,14 @@ class Grid:
             Grid()
 
         return Grid.__instance
+    # get_instance()
 
     def __init__(self):
         if Grid.__instance is not None:
             raise Exception("This is a Singleton class, do not try to instantiate it directly. Use get_instance method!")
         else:
             Grid.__instance = self
-            self.generate_grid()
+    # init()
 
     def generate_grid(self) -> Dict[Tuple[int, int], Cell]:
         grid: Dict[Tuple[int, int], Cell] = {}
@@ -35,6 +36,7 @@ class Grid:
 
         self.__grid = grid
         return grid
+    # generate_grid()
 
     @property
     def grid(self) -> Dict[Tuple[int, int], Cell]:

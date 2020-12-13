@@ -17,6 +17,7 @@ class Cell:
         self.__cost_to_end: int = 0
         self.__movement_sum: int = 0
         self.__parent: Cell = None
+    # init()
 
     def toggle_wall(self, direction: Direction):
         self.__walls[direction] = not self.__walls[direction]

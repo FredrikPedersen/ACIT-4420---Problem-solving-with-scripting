@@ -23,8 +23,6 @@ class MazeDrawer:
         self.__draw_maze()
     # draw()
 
-    # ---------- Grid Functions ---------- #
-
     def __draw_grid(self) -> None:
         """
         Draws white lines around each cell in the maze.
@@ -40,8 +38,6 @@ class MazeDrawer:
             pygame.draw.line(self.__screen, Colour.BLACK.value, [x, y + Constants.CELL_SIZE], [x, y])
             pygame.display.update()
     # draw_grid()
-
-    # ---------- Maze Functions ---------- #
 
     def __draw_backtracking_cell(self, x, y) -> None:
         """
@@ -172,5 +168,4 @@ class MazeDrawer:
                 # If all neighbouring cells are visited, remove the current one from the stack
                 x, y = stack.pop()
                 self.__draw_backtracking_cell(x, y)
-
     # draw_maze()
