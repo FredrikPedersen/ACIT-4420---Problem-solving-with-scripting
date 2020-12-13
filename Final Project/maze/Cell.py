@@ -21,9 +21,6 @@ class Cell:
     def toggle_wall(self, direction: Direction):
         self.__walls[direction] = not self.__walls[direction]
 
-    def __update_movement_sum(self):
-        self.__movement_sum = self.__cost_from_start + self.__cost_to_end
-
     @property
     def x(self):
         return self.__x
@@ -74,5 +71,5 @@ class Cell:
     def parent(self, parent):
         self.__parent = parent
 
-    def __str__(self) -> str:
-        return "Walls: " + str(self.__walls) + ", Visisted: " + str(self.__visited_while_solving)
+    def __update_movement_sum(self):
+        self.__movement_sum = self.__cost_from_start + self.__cost_to_end
