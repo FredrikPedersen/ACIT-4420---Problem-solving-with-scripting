@@ -21,7 +21,6 @@ class MazeSolver:
         self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.grid
         self.__solutionStartX: int = solution_start[0]
         self.__solutionStartY: int = solution_start[1]
-
     # __init__()
 
     # ---------- General Solution Functions ---------- #
@@ -38,7 +37,6 @@ class MazeSolver:
             self.__solutionSteps = AStar(solution_start_coordinates).solve_maze()
 
         self.__draw_solution_cells()
-
     # solve_maze()
 
     def __mark_start_exit(self) -> None:
@@ -48,7 +46,6 @@ class MazeSolver:
 
         draw_maze_cell(self.__solutionStartX, self.__solutionStartY, self.__screen, None, Colour.RED)
         draw_maze_cell(Constants.ROOT_X, Constants.ROOT_Y, self.__screen, None, Colour.GREEN)
-
     # mark_start_exit()
 
     def __draw_solution_cells(self, remove: bool = False) -> None:
@@ -59,6 +56,7 @@ class MazeSolver:
         :param remove: Indicate whether the function should be used to remove existing solution cells already drawn
                         on the canvas.
         """
+
         for step in self.__solutionSteps:
             # Add an offset to place the circle in the center of the cell
             x = step[0] + Constants.CELL_SIZE / 2
@@ -72,5 +70,4 @@ class MazeSolver:
             pygame.display.update()
 
             sleep_if_animation(.1)
-
     # draw_solution_cells()
