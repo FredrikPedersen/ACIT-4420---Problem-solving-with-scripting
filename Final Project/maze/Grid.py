@@ -20,7 +20,7 @@ class Grid:
             raise Exception("This is a Singleton class, do not try to instantiate it directly. Use get_instance method!")
         else:
             Grid.__instance = self
-    # init()
+    # __init__()
 
     def generate_grid(self) -> Dict[Tuple[int, int], Cell]:
         grid: Dict[Tuple[int, int], Cell] = {}

@@ -22,7 +22,7 @@ class MazeSolver:
         self.__solutionStartX: int = solution_start[0]
         self.__solutionStartY: int = solution_start[1]
 
-    # init()
+    # __init__()
 
     # ---------- General Solution Functions ---------- #
 

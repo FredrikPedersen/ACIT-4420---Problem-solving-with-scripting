@@ -13,12 +13,13 @@ class MazeDrawer:
 
         self.__screen = screen
         self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.generate_grid()
-    # init()
+    # __init__()
 
     def draw(self):
         """
         Public facing convenience function for performing all drawing tasks of this class
         """
+
         self.__draw_grid()
         self.__draw_maze()
     # draw()

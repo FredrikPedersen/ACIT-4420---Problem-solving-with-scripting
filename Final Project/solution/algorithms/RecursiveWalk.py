@@ -47,10 +47,8 @@ class RecursiveWalk(SolutionABC):
             return True
 
         return False
-
     # recursive_solution()
 
-    # Convenience functions for checking each direction in recursive_solution(). Written as separate functions for the sake of readability.
     def __check_left(self, x: int, y: int) -> bool:
         return super()._check_left(x, y) and self.__recursive_walk(x - Constants.CELL_SIZE, y)
 
