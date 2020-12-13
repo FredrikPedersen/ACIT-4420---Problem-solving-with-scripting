@@ -1,3 +1,4 @@
+import abc
 from abc import ABC
 import values.Constants as Constants
 from typing import Dict, List, Tuple, Set
@@ -14,6 +15,10 @@ class SolutionABC(ABC):
         self._grid: Dict[Tuple[int, int], Cell] = grid_instance.grid
         self._solutionStartX: int = solution_start[0]
         self._solutionStartY: int = solution_start[1]
+
+    @abc.abstractmethod
+    def solve_maze(self) -> List[Tuple[int, int]]:
+        pass
 
     def _check_left(self, x: int, y: int) -> bool:
         return not self.__direction_has_wall(x, y, Direction.LEFT) and x - Constants.CELL_SIZE >= Constants.ROOT_X

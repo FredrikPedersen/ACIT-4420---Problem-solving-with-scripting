@@ -10,7 +10,7 @@ class RecursiveWalk(SolutionABC):
         super().__init__(solution_start)
         self.__solutionSteps: List[Tuple[int, int]] = list()
 
-    def recursive_walk_solution(self) -> List[Tuple[int, int]]:
+    def solve_maze(self) -> List[Tuple[int, int]]:
         self.__recursive_walk()
         self.__solutionSteps.reverse()
         return self.__solutionSteps

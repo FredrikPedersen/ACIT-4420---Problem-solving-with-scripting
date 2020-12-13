@@ -1,5 +1,4 @@
 import random
-import values.Constants as Constants
 from typing import Dict, List, Set, Tuple
 
 from maze.Cell import Cell

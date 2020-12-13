@@ -1,10 +1,11 @@
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List, Tuple
+
+from maze.Cell import Cell
 from maze.Grid import Grid
 from maze.MazeUtils import *
-from maze.Cell import Cell
-from values.SolutionType import SolutionType
 from solution.algorithms.AStar import AStar
 from solution.algorithms.RecursiveWalk import RecursiveWalk
+from values.SolutionType import SolutionType
 
 
 class MazeSolver:
@@ -31,10 +32,10 @@ class MazeSolver:
         solution_start_coordinates: Tuple[int, int] = (self.__solutionStartX, self.__solutionStartY)
 
         if self.__solutionType == SolutionType.RECURSIVE_WALK:
-            self.__solutionSteps = RecursiveWalk(solution_start_coordinates).recursive_walk_solution()
+            self.__solutionSteps = RecursiveWalk(solution_start_coordinates).solve_maze()
 
         if self.__solutionType == SolutionType.A_STAR:
-            self.__solutionSteps = AStar(solution_start_coordinates).a_star_solution()
+            self.__solutionSteps = AStar(solution_start_coordinates).solve_maze()
 
         self.__draw_solution_cells()
 

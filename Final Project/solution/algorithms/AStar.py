@@ -12,7 +12,7 @@ class AStar(SolutionABC):
     def __init__(self, solution_start: Tuple[int, int]):
         super().__init__(solution_start)
 
-    def a_star_solution(self) -> List[Tuple[int, int]]:
+    def solve_maze(self) -> List[Tuple[int, int]]:
         closed_cells: Set[Cell] = set()
         open_cells: List[Cell] = list()
 
