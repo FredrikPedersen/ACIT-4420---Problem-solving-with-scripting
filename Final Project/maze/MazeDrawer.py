@@ -16,12 +16,12 @@ class MazeDrawer:
         self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.generate_grid()
     # init()
 
-    def draw(self) -> Dict:
+    def draw(self):
         """
         Public facing convenience function for performing all drawing tasks of this class
         """
         self.__draw_grid()
-        return self.__draw_maze()
+        self.__draw_maze()
     # draw()
 
     # ---------- Grid Functions ---------- #
@@ -94,7 +94,7 @@ class MazeDrawer:
         return neighbouring_cells
     # find_unvisited_neighbours()
 
-    def __draw_maze(self) -> Dict:
+    def __draw_maze(self) -> None:
         """
         Recursive randomized depth-first search to create a maze on a maze of cells.
         For each step of the algorithm:
@@ -118,7 +118,6 @@ class MazeDrawer:
         # Mark the starting location as visited, add it to the stack and draw it.
         visited: Set[Tuple[int, int]] = {(x, y)}
         stack: List[Tuple[int, int]] = [(x, y)]
-        creation_steps: Dict = {}
 
         while len(stack) > 0:
 
@@ -134,7 +133,6 @@ class MazeDrawer:
                     self.__grid[x + Constants.CELL_SIZE, y].toggle_wall(Direction.LEFT)
 
                     draw_maze_cell(x, y, self.__screen, Direction.RIGHT)
-                    creation_steps[(x + Constants.CELL_SIZE, y)] = x, y
 
                     x = x + Constants.CELL_SIZE
                     visited.add((x, y))
@@ -145,7 +143,6 @@ class MazeDrawer:
                     self.__grid[x - Constants.CELL_SIZE, y].toggle_wall(Direction.RIGHT)
 
                     draw_maze_cell(x, y, self.__screen, Direction.LEFT)
-                    creation_steps[(x - Constants.CELL_SIZE, y)] = x, y
 
                     x = x - Constants.CELL_SIZE
                     visited.add((x, y))
@@ -156,7 +153,6 @@ class MazeDrawer:
                     self.__grid[x, y + Constants.CELL_SIZE].toggle_wall(Direction.UP)
 
                     draw_maze_cell(x, y, self.__screen, Direction.DOWN)
-                    creation_steps[(x, y + Constants.CELL_SIZE)] = x, y
 
                     y = y + Constants.CELL_SIZE
                     visited.add((x, y))
@@ -167,7 +163,6 @@ class MazeDrawer:
                     self.__grid[x, y - Constants.CELL_SIZE].toggle_wall(Direction.DOWN)
 
                     draw_maze_cell(x, y, self.__screen, Direction.UP)
-                    creation_steps[(x, y - Constants.CELL_SIZE)] = x, y
 
                     y = y - Constants.CELL_SIZE
                     visited.add((x, y))
@@ -178,7 +173,5 @@ class MazeDrawer:
                 # If all neighbouring cells are visited, remove the current one from the stack
                 x, y = stack.pop()
                 self.__draw_backtracking_cell(x, y)
-
-        return creation_steps
 
     # draw_maze()

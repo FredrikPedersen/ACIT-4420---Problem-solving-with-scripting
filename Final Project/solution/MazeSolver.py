@@ -1,4 +1,3 @@
-import values.Constants as Constants
 from typing import Dict, List, Tuple, Set
 from maze.Grid import Grid
 from maze.MazeUtils import *
@@ -13,11 +12,10 @@ class MazeSolver:
     __solutionSteps: List[Tuple[int, int]]
     __solutionType: SolutionType
 
-    def __init__(self, screen: Union[Surface, SurfaceType], solution_type: SolutionType, maze_creation_steps: Dict, solution_start: Tuple[int]):
+    def __init__(self, screen: Union[Surface, SurfaceType], solution_type: SolutionType, solution_start: Tuple[int]):
         grid_instance: Grid = Grid.get_instance()
 
         self.__screen = screen
-        self.__maze_creation_steps: Dict = maze_creation_steps
         self.__solutionType: SolutionType = solution_type
         self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.grid
         self.__solutionStartX: int = solution_start[0]
@@ -31,9 +29,6 @@ class MazeSolver:
         self.__solutionSteps = []
         self.__mark_start_exit()
         solution_start_coordinates: Tuple[int, int] = (self.__solutionStartX, self.__solutionStartY)
-
-        if self.__solutionType == SolutionType.BUILD_SOLUTION:
-            self.__build_solution()
 
         if self.__solutionType == SolutionType.RECURSIVE_WALK:
             self.__solutionSteps = RecursiveWalk(solution_start_coordinates).recursive_walk_solution()
@@ -78,24 +73,3 @@ class MazeSolver:
             sleep_if_animation(.1)
 
     # draw_solution_cells()
-
-    # ---------- Build Solution Functions ---------- #
-
-    def __build_solution(self) -> None:
-        """
-        Creates a solution for the maze by following the key-value pairs generated while building the maze
-        back to the entrance.
-
-        The key corresponding to the current value was the previous step in the path. Updates
-        (x, y) to equal the previous cell, and continues retracing the steps until it reaches the maze's start.
-        """
-
-        x: int = self.__solutionStartX
-        y: int = self.__solutionStartY
-
-        # Loop until cell position == Start position
-        while (x, y) != (Constants.ROOT_X, Constants.ROOT_Y):
-            x, y = self.__maze_creation_steps[x, y]
-            self.__solutionSteps.append((x, y))
-
-    # build_solution()

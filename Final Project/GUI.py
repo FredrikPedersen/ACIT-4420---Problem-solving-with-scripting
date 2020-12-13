@@ -19,8 +19,7 @@ class Gui:
     __max_maze_height: int = int(Constants.WINDOW_HEIGHT / Constants.CELL_SIZE - 2)
 
     def __init__(self):
-        self.__creationSteps = None
-        self.__chosen_solution: SolutionType = SolutionType.BUILD_SOLUTION
+        self.__chosen_solution: SolutionType = SolutionType.RECURSIVE_WALK
         self.__solution_start: List[int, int] = [Constants.MAZE_WIDTH, Constants.MAZE_HEIGHT]
         self.__solved_once = False
 
@@ -98,8 +97,8 @@ class Gui:
     def __draw_and_solve_maze(self) -> None:
         self.__clear_pygame_screen()
         maze_drawer: MazeDrawer = MazeDrawer(self.__screen)
-        self.__creationSteps = maze_drawer.draw()
-        maze_solver: MazeSolver = MazeSolver(self.__screen, self.__chosen_solution, self.__creationSteps, tuple(self.__solution_start))
+        maze_drawer.draw()
+        maze_solver: MazeSolver = MazeSolver(self.__screen, self.__chosen_solution, tuple(self.__solution_start))
         maze_solver.solve_maze()
 
     # ---------- Callback and Utility Functions ---------- #

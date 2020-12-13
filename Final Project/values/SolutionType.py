@@ -3,7 +3,6 @@ import enum
 
 class SolutionType(enum.Enum):
 
-    BUILD_SOLUTION = "Build Solution"
     RECURSIVE_WALK = "Recursive Walk"
     A_STAR = "A*"
 
