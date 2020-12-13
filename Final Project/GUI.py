@@ -21,10 +21,20 @@ class Gui:
     def __init__(self):
         self.__chosen_solution: SolutionType = SolutionType.RECURSIVE_WALK
         self.__solution_start: List[int, int] = [Constants.MAZE_WIDTH, Constants.MAZE_HEIGHT]
-        self.__solved_once = False
 
         self.__root_window: Tk = self.__initialize_root_window()
         self.__screen: Union[Surface, SurfaceType] = self.__initialize_pygame()
+    # __init__()
+
+    def run_gui_loop(self):
+        while True:
+            self.__root_window.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+    # run_gui_loop()
 
     # ---------- Initializations ---------- #
 
@@ -35,6 +45,7 @@ class Gui:
         self.__initialize_inputs(root_window)
 
         return root_window
+    # initialize_root_window()
 
     def __initialize_pygame(self) -> Union[Surface, SurfaceType]:
         pygame.display.init()
@@ -79,18 +90,7 @@ class Gui:
         self.__animations_check_button = Checkbutton(window, variable=self.__animations_checked, command=self.__animations_check_callback).grid(row=9, column=2)
 
         Button(window, text="Draw and Solve Maze", font=("bold", 12), command=self.__draw_and_solve_maze).grid(row=11, column=1, pady=10, columnspan=2)
-
     # initialize_inputs()
-
-    def run_gui_loop(self):
-        while True:
-            self.__root_window.update()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-    # run_gui_loop()
 
     # ---------- Action Functions ---------- #
 
@@ -100,6 +100,7 @@ class Gui:
         maze_drawer.draw()
         maze_solver: MazeSolver = MazeSolver(self.__screen, self.__chosen_solution, tuple(self.__solution_start))
         maze_solver.solve_maze()
+    # draw_and_solve_maze()
 
     # ---------- Callback and Utility Functions ---------- #
 
