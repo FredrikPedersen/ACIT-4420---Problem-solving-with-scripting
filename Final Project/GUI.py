@@ -1,5 +1,5 @@
 from tkinter import *
-from typing import Union, List
+from typing import Union, List, Tuple
 
 import pygame
 import values.Constants as Constants
@@ -8,6 +8,9 @@ from pygame.surface import SurfaceType, Surface
 from maze.MazeDrawer import MazeDrawer
 from solution.MazeSolver import MazeSolver
 from values.SolutionType import SolutionType
+from solution.algorithms.Solution import Solution
+from solution.algorithms.AStar import AStar
+from solution.algorithms.RecursiveWalk import RecursiveWalk
 from values.Colour import Colour
 
 
@@ -95,12 +98,26 @@ class Gui:
     # ---------- Action Functions ---------- #
 
     def __draw_and_solve_maze(self) -> None:
+        solution_start_coordinates = tuple(self.__solution_start)
+
         self.__clear_pygame_screen()
         maze_drawer: MazeDrawer = MazeDrawer(self.__screen)
         maze_drawer.draw()
-        maze_solver: MazeSolver = MazeSolver(self.__screen, self.__chosen_solution, tuple(self.__solution_start))
+        maze_solver: MazeSolver = MazeSolver(self.__screen, self.__instantiate_solution(self.__chosen_solution, solution_start_coordinates), solution_start_coordinates)
         maze_solver.draw_maze_solution()
     # draw_and_solve_maze()
+
+    def __instantiate_solution(self, solution_type: SolutionType, solution_start_coordinates: Tuple[int, int]) -> Solution:
+        if solution_type == SolutionType.A_STAR:
+            return AStar(solution_start_coordinates)
+
+        if solution_type == SolutionType.RECURSIVE_WALK:
+            return RecursiveWalk(solution_start_coordinates)
+
+        raise Exception(
+            "A non-valid solution type was passed in when trying to instantiate solution in Maze Solver class!")
+    # instantiate_solution()
+
 
     # ---------- Callback and Utility Functions ---------- #
 

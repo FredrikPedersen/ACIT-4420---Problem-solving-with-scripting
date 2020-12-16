@@ -1,10 +1,10 @@
 from typing import List, Tuple
 
 import values.Constants as Constants
-from solution.algorithms.SolutionABC import SolutionABC
+from solution.algorithms.Solution import Solution
 
 
-class RecursiveWalk(SolutionABC):
+class RecursiveWalk(Solution):
 
     def __init__(self, solution_start: Tuple[int, int]):
         super().__init__(solution_start)

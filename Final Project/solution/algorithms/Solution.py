@@ -7,7 +7,7 @@ from maze.Grid import Grid
 from values.Direction import Direction
 
 
-class SolutionABC(ABC):
+class Solution(ABC):
 
     """
     Abstract Base Class for all maze-solution algorithms.

@@ -3,9 +3,7 @@ from typing import Dict, List, Tuple
 from maze.Cell import Cell
 from maze.Grid import Grid
 from utilities.DrawUtills import *
-from solution.algorithms.AStar import AStar
-from solution.algorithms.RecursiveWalk import RecursiveWalk
-from values.SolutionType import SolutionType
+from solution.algorithms.Solution import Solution
 
 
 class MazeSolver:
@@ -15,29 +13,20 @@ class MazeSolver:
     """
 
     __solutionSteps: List[Tuple[int, int]]
-    __solutionType: SolutionType
 
-    def __init__(self, screen: Union[Surface, SurfaceType], solution_type: SolutionType, solution_start: Tuple[int]):
+    def __init__(self, screen: Union[Surface, SurfaceType], solution: Solution, solution_start: Tuple[int, int]):
         grid_instance: Grid = Grid.get_instance()
 
         self.__screen = screen
-        self.__solutionType: SolutionType = solution_type
+        self.__solution: Solution = solution
         self.__grid: Dict[Tuple[int, int], Cell] = grid_instance.grid
         self.__solutionStartX: int = solution_start[0]
         self.__solutionStartY: int = solution_start[1]
     # __init__()
 
     def draw_maze_solution(self) -> None:
-        self.__solutionSteps = []
         self.__mark_start_exit()
-        solution_start_coordinates: Tuple[int, int] = (self.__solutionStartX, self.__solutionStartY)
-
-        if self.__solutionType == SolutionType.RECURSIVE_WALK:
-            self.__solutionSteps = RecursiveWalk(solution_start_coordinates).solve_maze()
-
-        if self.__solutionType == SolutionType.A_STAR:
-            self.__solutionSteps = AStar(solution_start_coordinates).solve_maze()
-
+        self.__solutionSteps = self.__solution.solve_maze()
         self.__draw_solution_cells()
     # solve_maze()
 

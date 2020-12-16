@@ -47,7 +47,7 @@ class MazeDrawer:
 
     def __draw_maze(self) -> None:
         """
-        Recursive randomized depth-first search to create a maze on a grid of cells.
+        Iterative randomized depth-first search to create a maze on a grid of cells.
         For each step of the algorithm:
             1. Mark the current cell as visited
             2. While the current cell has any unvisited neighbour cells:

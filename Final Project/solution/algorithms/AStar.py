@@ -2,10 +2,10 @@ from typing import List, Tuple, Set
 
 import values.Constants as Constants
 from maze.Cell import Cell
-from solution.algorithms.SolutionABC import SolutionABC
+from solution.algorithms.Solution import Solution
 
 
-class AStar(SolutionABC):
+class AStar(Solution):
 
     """
     Class used for solving mazes based on the A* search algorithm.
