@@ -31,7 +31,6 @@ class AStar(Solution):
                  cell's parent.
             3.2: That is not closed and not marked as open, update both cell's movement cost and set the current cell as
                 the adjacent cell's parent, mark the adjacent cell as open.
-            3.3: If neither 3.1 or 3.2 applies, an error has occurred in the algorithm logic.
 
         :return: A list with the coordinates of the cheapest path from the algorithm's start position to the maze's exit.
         """

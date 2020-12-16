@@ -19,7 +19,6 @@ class Cell:
         # Values used specifically for A* algorithm
         self.__cost_from_start: int = 0
         self.__cost_to_end: int = 0
-        self.__movement_sum: int = 0
         self.__parent: Cell = None
     # __init__()
 
@@ -51,10 +50,6 @@ class Cell:
         return self.__cost_to_end
 
     @property
-    def movement_sum(self) -> int:
-        return self.__movement_sum
-
-    @property
     def parent(self):
         return self.__parent
 
@@ -65,16 +60,11 @@ class Cell:
     @cost_from_start.setter
     def cost_from_start(self, value):
         self.__cost_from_start = value
-        self.__update_movement_sum()
 
     @cost_to_end.setter
     def cost_to_end(self, value):
         self.__cost_to_end = value
-        self.__update_movement_sum()
 
     @parent.setter
     def parent(self, parent):
         self.__parent = parent
-
-    def __update_movement_sum(self):
-        self.__movement_sum = self.__cost_from_start + self.__cost_to_end
