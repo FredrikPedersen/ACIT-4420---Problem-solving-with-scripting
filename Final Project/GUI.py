@@ -6,11 +6,11 @@ import values.Constants as Constants
 from pygame.surface import SurfaceType, Surface
 
 from maze.MazeDrawer import MazeDrawer
-from solution.MazeSolver import MazeSolver
+from solutions.SolutionDrawer import SolutionDrawer
 from values.SolutionType import SolutionType
-from solution.algorithms.Solution import Solution
-from solution.algorithms.AStar import AStar
-from solution.algorithms.RecursiveWalk import RecursiveWalk
+from solutions.algorithms.Solution import Solution
+from solutions.algorithms.AStar import AStar
+from solutions.algorithms.RecursiveWalk import RecursiveWalk
 from values.Colour import Colour
 
 
@@ -103,7 +103,7 @@ class Gui:
         self.__clear_pygame_screen()
         maze_drawer: MazeDrawer = MazeDrawer(self.__screen)
         maze_drawer.draw()
-        maze_solver: MazeSolver = MazeSolver(self.__screen, self.__instantiate_solution(self.__chosen_solution, solution_start_coordinates), solution_start_coordinates)
+        maze_solver: SolutionDrawer = SolutionDrawer(self.__screen, self.__instantiate_solution(self.__chosen_solution, solution_start_coordinates), solution_start_coordinates)
         maze_solver.draw_maze_solution()
     # draw_and_solve_maze()
 
@@ -115,7 +115,7 @@ class Gui:
             return RecursiveWalk(solution_start_coordinates)
 
         raise Exception(
-            "A non-valid solution type was passed in when trying to instantiate solution in Maze Solver class!")
+            "A non-valid solutions type was passed in when trying to instantiate solutions in Maze Solver class!")
     # instantiate_solution()
 
 
@@ -127,7 +127,7 @@ class Gui:
                 self.__chosen_solution = solution_type
                 return
 
-        raise Exception("A non-existing solution type has been selected. This should not be able to happen.")
+        raise Exception("A non-existing solutions type has been selected. This should not be able to happen.")
 
     def __width_scale_callback(self, value: int):
         Constants.set_grid_width(int(value))

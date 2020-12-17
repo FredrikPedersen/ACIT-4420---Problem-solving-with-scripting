@@ -10,7 +10,7 @@ from values.Direction import Direction
 class Solution(ABC):
 
     """
-    Abstract Base Class for all maze-solution algorithms.
+    Abstract Base Class for all maze-solutions algorithms.
     """
 
     def __init__(self, solution_start: Tuple[int, int]):

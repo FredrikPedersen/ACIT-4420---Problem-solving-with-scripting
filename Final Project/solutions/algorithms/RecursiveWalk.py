@@ -1,7 +1,7 @@
 from typing import List, Tuple
 
 import values.Constants as Constants
-from solution.algorithms.Solution import Solution
+from solutions.algorithms.Solution import Solution
 
 
 class RecursiveWalk(Solution):
@@ -17,7 +17,7 @@ class RecursiveWalk(Solution):
 
     def __recursive_walk(self, x: int = -1, y: int = -1) -> bool:
         """
-        Recursive path-finding solution to find the exit, prioritizing going left, right, up and then down.
+        Recursive path-finding solutions to find the exit, prioritizing going left, right, up and then down.
         Keeps going in a direction until a wall is found in the given direction or the given direction is outside the
         maze's boundaries. Function terminates once the maze's entrance is found.
 

@@ -2,7 +2,7 @@ from typing import List, Tuple, Set
 
 import values.Constants as Constants
 from maze.Cell import Cell
-from solution.algorithms.Solution import Solution
+from solutions.algorithms.Solution import Solution
 
 
 class AStar(Solution):
@@ -66,7 +66,7 @@ class AStar(Solution):
 
     def __create_path(self) -> List[Tuple[int, int]]:
         """
-        Iterates through all the cells on the cheapest path in the grid from the solution's start coordinates by
+        Iterates through all the cells on the cheapest path in the grid from the solutions's start coordinates by
         following their parent-cells to the exit.
 
         :return: A list with the coordinates of the cheapest path from the algorithm's start position to the maze's exit.

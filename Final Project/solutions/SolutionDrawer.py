@@ -3,13 +3,13 @@ from typing import Dict, List, Tuple
 from maze.Cell import Cell
 from maze.Grid import Grid
 from utilities.DrawUtills import *
-from solution.algorithms.Solution import Solution
+from solutions.algorithms.Solution import Solution
 
 
-class MazeSolver:
+class SolutionDrawer:
 
     """
-    Class used for drawing paths calculated by solution algorithms to the maze.
+    Class used for drawing paths calculated by solutions algorithms to the maze.
     """
 
     __solutionSteps: List[Tuple[int, int]]
@@ -32,7 +32,7 @@ class MazeSolver:
 
     def __mark_start_exit(self) -> None:
         """
-        Convenience function for drawing the solution's start and exit positions as red and green cells, respectively.
+        Convenience function for drawing the solutions's start and exit positions as red and green cells, respectively.
         """
 
         draw_maze_cell(self.__solutionStartX, self.__solutionStartY, self.__screen, None, Colour.RED)
@@ -42,7 +42,7 @@ class MazeSolver:
     def __draw_solution_cells(self) -> None:
         """
         Draws a red circle in the center of the cell at position (x, y).
-        Used to draw individual steps in the solution path.
+        Used to draw individual steps in the solutions path.
         """
 
         for step in self.__solutionSteps:
