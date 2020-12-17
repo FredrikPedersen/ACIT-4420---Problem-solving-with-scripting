@@ -32,7 +32,7 @@ class SolutionDrawer:
 
     def __mark_start_exit(self) -> None:
         """
-        Convenience function for drawing the solutions's start and exit positions as red and green cells, respectively.
+        Convenience function for drawing the solution's start and exit positions as red and green cells, respectively.
         """
 
         draw_maze_cell(self.__solutionStartX, self.__solutionStartY, self.__screen, None, Colour.RED)

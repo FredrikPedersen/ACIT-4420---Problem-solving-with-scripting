@@ -29,7 +29,7 @@ class Grid:
 
     def generate_grid(self) -> Dict[Tuple[int, int], Cell]:
         """
-        Generates a N x M Dictionary with Cell objects as values, where N and M are defined constanst.py (and are
+        Generates a N x M Dictionary with Cell objects as values, where N and M are defined constants.py (and are
         intended to be set by the user at runtime). Each cell is given an area equal to CELL_SIZExCELL_SIZE in the grid.
 
         :return: Dictionary with a Cell object's coordinates as key, and the Cell object itself as value.

@@ -1,7 +1,7 @@
 import abc
 from abc import ABC
 import values.Constants as Constants
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List, Tuple
 from maze.Cell import Cell
 from maze.Grid import Grid
 from values.Direction import Direction

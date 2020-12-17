@@ -114,8 +114,7 @@ class Gui:
         if solution_type == SolutionType.RECURSIVE_WALK:
             return RecursiveWalk(solution_start_coordinates)
 
-        raise Exception(
-            "A non-valid solutions type was passed in when trying to instantiate solutions in Maze Solver class!")
+        raise Exception("A non-valid solutions type was passed in when trying to instantiate solutions in Maze Solver class!")
     # instantiate_solution()
 
 
@@ -127,7 +126,7 @@ class Gui:
                 self.__chosen_solution = solution_type
                 return
 
-        raise Exception("A non-existing solutions type has been selected. This should not be able to happen.")
+        raise Exception("A non-existing solution type has been selected. This should not be able to happen.")
 
     def __width_scale_callback(self, value: int):
         Constants.set_grid_width(int(value))
